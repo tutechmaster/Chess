@@ -446,6 +446,7 @@
 				CB8614141E6FA49300FF4F8D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

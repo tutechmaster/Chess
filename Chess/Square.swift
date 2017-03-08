@@ -7,9 +7,40 @@
 //
 
 import Foundation
-
-class Square
+import UIKit
+class Square: UIView
 {
     var row: Int!
     var col: Int!
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("")
+    }
+    
+    init(frame: CGRect, color: UIColor) {
+        super.init(frame: frame)
+        drawCell(cellSize: frame.width, color: color.cgColor)
+        
+    }
+    
+    func drawCell(cellSize: CGFloat, color: CGColor){
+        
+        let cell = UIView(frame: self.frame)
+        
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = cell.bounds
+        maskLayer.path = UIBezierPath(rect: cell.bounds).cgPath
+        maskLayer.opacity = 0.7
+        cell.layer.mask = maskLayer
+        
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = maskLayer.path
+        borderLayer.fillColor = color
+        borderLayer.strokeColor = UIColor.black.cgColor
+        borderLayer.lineWidth = 2
+        borderLayer.frame = cell.bounds
+        
+        self.layer.addSublayer(borderLayer)
+        
+    }
 }

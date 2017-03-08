@@ -9,10 +9,11 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    var gamemanager: GameManager!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.gamemanager = GameManager()
+        self.gamemanager.initGameWith(viewcontroller: self, size: self.view.bounds.size.width)
     }
 
     override func didReceiveMemoryWarning() {
