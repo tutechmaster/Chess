@@ -8,10 +8,12 @@
 
 import Foundation
 import UIKit
-
+protocol PieceSetDelegate {
+    func didFinishInitPieceSet(pieces: [Piece])
+}
 class PieceSet
 {
-    var delegate: BoardViewDelegate!
+    var delegate: PieceSetDelegate!
     var pieceOrder = [PieceType]()
     var pieces = [Piece]()
     var color: PieceColor!
@@ -35,19 +37,21 @@ class PieceSet
     func addPieces(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat)
     {
         switch color {
-        case .Black:
+        case .White:
             let startCoordinates = Position(row: 0, col: 0)
             let endCoordinates = Position(row: 1, col: colTotal-1)
             self.addPiecesWith(startCoordinates: startCoordinates,
                                endCoordinates: endCoordinates,
-                               color: color, width: width)
+                               color: color,
+                               width: width)
             break
         default:
             let startCoordinates = Position(row: rowTotal - 1, col: 0)
             let endCoordinates = Position(row: rowTotal - 2, col: colTotal - 1)
             self.addPiecesWith(startCoordinates: startCoordinates,
                                endCoordinates: endCoordinates,
-                               color: color, width: width)
+                               color: color,
+                               width: width)
             break
         }
         

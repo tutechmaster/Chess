@@ -13,17 +13,7 @@ class King: Piece
 {
     init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
-        let image: UIImage!
-        switch pieceColor {
-        case .Black:
-            image = UIImage(named: "blackKing")
-            break
-        default:
-            image = UIImage(named: "whiteKing")
-            break
-        }
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, image: image)
-        self.type = PieceType.King
+        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .King)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

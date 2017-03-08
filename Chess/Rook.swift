@@ -13,17 +13,7 @@ class Rook: Piece
 {
     init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
-        let image: UIImage!
-        switch pieceColor {
-        case .Black:
-            image = UIImage(named: "blackRook")
-            break
-        default:
-            image = UIImage(named: "whiteRook")
-            break
-        }
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, image: image)
-        self.type = PieceType.Rook
+        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Rook)
     }
     
     required init?(coder aDecoder: NSCoder) {

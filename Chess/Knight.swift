@@ -13,17 +13,7 @@ class Knight: Piece
 {
     init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
-        let image: UIImage!
-        switch pieceColor {
-        case .Black:
-            image = UIImage(named: "blackKnight")
-            break
-        default:
-            image = UIImage(named: "whiteKnight")
-            break
-        }
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, image: image)
-        self.type = PieceType.Knight
+        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Knight)
     }
     
     required init?(coder aDecoder: NSCoder) {

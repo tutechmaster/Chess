@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PieceType
+enum PieceType:String
 {
     case Pawn, King, Queen, Rook, Bishop, Knight
 }

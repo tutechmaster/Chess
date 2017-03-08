@@ -13,17 +13,7 @@ class Bishop: Piece
 {
     init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
-        let image: UIImage!
-        switch pieceColor {
-        case .Black:
-            image = UIImage(named: "blackBishop")
-            break
-        default:
-            image = UIImage(named: "whiteBishop")
-            break
-        }
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, image: image)
-        self.type = PieceType.Bishop
+        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Bishop)
     }
     
     required init?(coder aDecoder: NSCoder) {
