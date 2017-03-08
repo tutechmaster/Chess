@@ -33,13 +33,13 @@ class Board: UIView
     private func addPieceSet(rowTotal: Int, colTotal: Int)
     {
         let width = self.frame.width/CGFloat(rowTotal)
-        let blackPieceSet = PieceSet(color: .White,
+        let blackPieceSet = PieceSet(color: .Black,
                                      rowTotal: rowTotal,
                                      colTotal: colTotal,
                                      width: width)
         blackPieceSet.delegate = self
         blackPieceSet.addPieces()
-        let whitePieceSet = PieceSet(color: .Black,
+        let whitePieceSet = PieceSet(color: .White,
                                      rowTotal: rowTotal,
                                      colTotal: colTotal,
                                      width: width)

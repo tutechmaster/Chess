@@ -11,12 +11,12 @@ import UIKit
 
 class Knight: Piece
 {
-    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
         let image: UIImage!
         switch pieceColor {
         case .Black:
-            image = UIImage(named: "whiteKnight")
+            image = UIImage(named: "blackKnight")
             break
         default:
             image = UIImage(named: "whiteKnight")

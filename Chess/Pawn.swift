@@ -11,12 +11,12 @@ import UIKit
 
 class Pawn: Piece
 {
-    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
         let image: UIImage!
         switch pieceColor {
         case .Black:
-            image = UIImage(named: "whitePawn")
+            image = UIImage(named: "blackPawn")
             break
         default:
             image = UIImage(named: "whitePawn")

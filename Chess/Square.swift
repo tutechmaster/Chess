@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-struct Coordinates {
+struct Position {
     var row: Int!
     var col: Int!
 }

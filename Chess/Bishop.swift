@@ -11,12 +11,12 @@ import UIKit
 
 class Bishop: Piece
 {
-    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
         let image: UIImage!
         switch pieceColor {
         case .Black:
-            image = UIImage(named: "whiteBishop")
+            image = UIImage(named: "blackBishop")
             break
         default:
             image = UIImage(named: "whiteBishop")

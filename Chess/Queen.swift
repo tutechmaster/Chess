@@ -11,15 +11,15 @@ import UIKit
 
 class Queen: Piece
 {
-    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
         let image: UIImage!
         switch pieceColor {
         case .Black:
-            image = UIImage(named: "whiteQueen")
+            image = UIImage(named: "blackQueen")
             break
         default:
-            image = UIImage(named: "blackQueen")
+            image = UIImage(named: "whiteQueen")
             break
         }
         super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, image: image)

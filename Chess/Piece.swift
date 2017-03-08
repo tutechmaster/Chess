@@ -12,10 +12,10 @@ import UIKit
 class Piece: UIImageView
 {
     var pieceColor: PieceColor!
-    var placeAt: Coordinates!
+    var placeAt: Position!
     var moved: Bool!
     var type: PieceType!
-    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo, image: UIImage)
+    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo, image: UIImage)
     {
         super.init(image: image)
         self.pieceColor = pieceColor

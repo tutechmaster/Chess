@@ -36,15 +36,15 @@ class PieceSet
     {
         switch color {
         case .Black:
-            let startCoordinates = Coordinates(row: 0, col: 0)
-            let endCoordinates = Coordinates(row: 1, col: colTotal-1)
+            let startCoordinates = Position(row: 0, col: 0)
+            let endCoordinates = Position(row: 1, col: colTotal-1)
             self.addPiecesWith(startCoordinates: startCoordinates,
                                endCoordinates: endCoordinates,
                                color: color, width: width)
             break
         default:
-            let startCoordinates = Coordinates(row: rowTotal - 1, col: 0)
-            let endCoordinates = Coordinates(row: rowTotal - 2, col: colTotal - 1)
+            let startCoordinates = Position(row: rowTotal - 1, col: 0)
+            let endCoordinates = Position(row: rowTotal - 2, col: colTotal - 1)
             self.addPiecesWith(startCoordinates: startCoordinates,
                                endCoordinates: endCoordinates,
                                color: color, width: width)
@@ -52,21 +52,19 @@ class PieceSet
         }
         
     }
-    func addPiecesWith(startCoordinates: Coordinates, endCoordinates: Coordinates, color: PieceColor, width: CGFloat)
+    func addPiecesWith(startCoordinates: Position, endCoordinates: Position, color: PieceColor, width: CGFloat)
     {
         var isFirst = true // when isFirst == false, we just add pawns to the board
         var startRow = 0, endRow = 0
         let startCol = startCoordinates.col!
         let endCol = endCoordinates.col!
-        startRow = min(startCoordinates.row, endCoordinates.row)
-        endRow = max(startCoordinates.row, endCoordinates.row)
+        startRow = startCoordinates.row
+        endRow = endCoordinates.row
+        let stepUp = startRow > endRow ? -1 : 1
         
-        for row in startRow...endRow
-        {
-            for col in startCol...endCol
-            {
-
-                let position = Coordinates(row: row, col: col)
+        for row in stride(from: startRow, through: endRow, by: stepUp) {
+            for col in startCol...endCol {
+                let position = Position(row: row, col: col)
                 let cellInfo = CellInfo(margin: 0, squareWidth: width)
                 let currentPiece: Piece!
                 if(isFirst == false)
@@ -83,7 +81,7 @@ class PieceSet
             isFirst = false
         }
     }
-    func getPieceAt(type: PieceType, color: PieceColor, at position: Coordinates, cellInfo: CellInfo) -> Piece
+    func getPieceAt(type: PieceType, color: PieceColor, at position: Position, cellInfo: CellInfo) -> Piece
     {
         let currentPiece: Piece!
         switch type {

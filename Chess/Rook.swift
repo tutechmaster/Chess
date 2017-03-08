@@ -11,12 +11,12 @@ import UIKit
 
 class Rook: Piece
 {
-    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
     {
         let image: UIImage!
         switch pieceColor {
         case .Black:
-            image = UIImage(named: "whiteRook")
+            image = UIImage(named: "blackRook")
             break
         default:
             image = UIImage(named: "whiteRook")
