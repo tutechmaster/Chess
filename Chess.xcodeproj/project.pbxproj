@@ -139,17 +139,17 @@
 		CB86141B1E6FA50200FF4F8D /* Piece */ = {
 			isa = PBXGroup;
 			children = (
+				CB86143E1E6FA7EE00FF4F8D /* MoveDirection.swift */,
+				CB8614421E6FA87200FF4F8D /* PieceColor.swift */,
+				CB8614261E6FA59C00FF4F8D /* PieceType.swift */,
 				CB8614401E6FA83500FF4F8D /* PieceSet.swift */,
 				CB8614241E6FA55A00FF4F8D /* Piece.swift */,
-				CB8614261E6FA59C00FF4F8D /* PieceType.swift */,
 				CB8614321E6FA61700FF4F8D /* Queen.swift */,
 				CB8614341E6FA62400FF4F8D /* King.swift */,
 				CB8614361E6FA62F00FF4F8D /* Knight.swift */,
 				CB8614381E6FA63C00FF4F8D /* Bishop.swift */,
 				CB86143A1E6FA64C00FF4F8D /* Rook.swift */,
 				CB86143C1E6FA65600FF4F8D /* Pawn.swift */,
-				CB86143E1E6FA7EE00FF4F8D /* MoveDirection.swift */,
-				CB8614421E6FA87200FF4F8D /* PieceColor.swift */,
 			);
 			name = Piece;
 			sourceTree = "<group>";

@@ -8,11 +8,16 @@
 
 import Foundation
 import UIKit
-class Square: UIView
-{
+struct Coordinates {
     var row: Int!
     var col: Int!
-    
+}
+struct CellInfo {
+    var margin: CGFloat!
+    var squareWidth: CGFloat!
+}
+class Square: UIView
+{
     required init?(coder aDecoder: NSCoder) {
         fatalError("")
     }
@@ -44,3 +49,4 @@ class Square: UIView
         
     }
 }
+

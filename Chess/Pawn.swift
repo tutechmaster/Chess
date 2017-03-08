@@ -7,13 +7,26 @@
 //
 
 import Foundation
+import UIKit
+
 class Pawn: Piece
 {
-    var promoted: Bool!
-    var promoteTo: Piece!
-    var moveDirection: MoveDirection!
-    override init() {
-        super.init()
+    init(pieceColor: PieceColor, at position: Coordinates, cellInfo: CellInfo)
+    {
+        let image: UIImage!
+        switch pieceColor {
+        case .Black:
+            image = UIImage(named: "whitePawn")
+            break
+        default:
+            image = UIImage(named: "whitePawn")
+            break
+        }
+        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, image: image)
         self.type = PieceType.Pawn
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
