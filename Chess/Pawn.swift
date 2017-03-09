@@ -20,19 +20,19 @@ class Pawn: Piece
     var isFristMove = true
     var toOccupiedSquare = false
     
-    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position)
     {
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Pawn)
+        super.init(pieceColor: pieceColor, at: position, type: .Pawn)
         self.moveDirection = pieceColor == .Black ? .Up:.Down
     }
-    override func validMoves(startPosition: Position, endPosition: Position) -> Bool{
+    override func validMoves(destination: Position) -> Bool{
         var checkValidMovesUp = true
         if self.moveDirection == .Up {
-            checkValidMovesUp = self.validMovesUp(startPosition: startPosition, endPosition: endPosition)
+            checkValidMovesUp = self.validMovesUp(startPosition: self.placeAt, endPosition: destination)
         }
         else
         {
-            checkValidMovesUp = self.validMovesDown(startPosition: startPosition, endPosition: endPosition)
+            checkValidMovesUp = self.validMovesDown(startPosition: self.placeAt, endPosition: destination)
         }
         
         if(checkValidMovesUp == false)
@@ -41,7 +41,7 @@ class Pawn: Piece
         }
         else
         {
-            if(startPosition.col == endPosition.col)
+            if(self.placeAt.col == destination.col)
             {
                 //vertical
                 if(toOccupiedSquare == false)

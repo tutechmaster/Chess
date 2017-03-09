@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB81AF8D1E70F45A00FAF2B4 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */; };
+		CB81AF901E70F79000FAF2B4 /* PieceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */; };
 		CB8614041E6FA49300FF4F8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8614031E6FA49300FF4F8D /* AppDelegate.swift */; };
 		CB8614061E6FA49300FF4F8D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8614051E6FA49300FF4F8D /* ViewController.swift */; };
 		CB8614091E6FA49300FF4F8D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB8614071E6FA49300FF4F8D /* Main.storyboard */; };
@@ -35,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
+		CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceController.swift; sourceTree = "<group>"; };
 		CB8614001E6FA49300FF4F8D /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB8614031E6FA49300FF4F8D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB8614051E6FA49300FF4F8D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -75,6 +79,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB81AF8B1E70F44E00FAF2B4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		CB81AF8E1E70F77300FAF2B4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		CB8613F71E6FA49300FF4F8D = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +114,8 @@
 		CB8614021E6FA49300FF4F8D /* Chess */ = {
 			isa = PBXGroup;
 			children = (
+				CB81AF8E1E70F77300FAF2B4 /* Controller */,
+				CB81AF8B1E70F44E00FAF2B4 /* Views */,
 				CB86141F1E6FA52B00FF4F8D /* Player */,
 				CB86141E1E6FA52100FF4F8D /* CheckStatus */,
 				CB86141D1E6FA51300FF4F8D /* Result */,
@@ -263,6 +285,7 @@
 			files = (
 				CB86142F1E6FA5CE00FF4F8D /* Player.swift in Sources */,
 				CB86142B1E6FA5B400FF4F8D /* Result.swift in Sources */,
+				CB81AF901E70F79000FAF2B4 /* PieceController.swift in Sources */,
 				CB8614231E6FA54C00FF4F8D /* Square.swift in Sources */,
 				CB8614331E6FA61700FF4F8D /* Queen.swift in Sources */,
 				CB8614371E6FA62F00FF4F8D /* Knight.swift in Sources */,
@@ -276,6 +299,7 @@
 				CB8614291E6FA5AA00FF4F8D /* Move.swift in Sources */,
 				CB8614171E6FA4D700FF4F8D /* GameManager.swift in Sources */,
 				CB8614391E6FA63C00FF4F8D /* Bishop.swift in Sources */,
+				CB81AF8D1E70F45A00FAF2B4 /* PieceView.swift in Sources */,
 				CB8614451E6FAAA200FF4F8D /* ComputerPlayer.swift in Sources */,
 				CB8614211E6FA54200FF4F8D /* Board.swift in Sources */,
 				CB86143F1E6FA7EE00FF4F8D /* MoveDirection.swift in Sources */,

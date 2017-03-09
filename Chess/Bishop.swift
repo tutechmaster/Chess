@@ -11,9 +11,9 @@ import UIKit
 
 class Bishop: Piece
 {
-    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position)
     {
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Bishop)
+        super.init(pieceColor: pieceColor, at: position, type: .Bishop)
     }
     
     required init?(coder aDecoder: NSCoder) {

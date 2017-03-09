@@ -75,10 +75,10 @@ class GameManager
 }
 extension GameManager: PieceSetDelegate
 {
-    func didFinishInitPieceSet(pieces: [Piece]) {
-        for piece in pieces
+    func didFinishInitPieceSet(pieceControllers: [PieceController]) {
+        for pieceController in pieceControllers
         {
-            self.mainView.addSubview(piece)
+            self.mainView.addSubview(pieceController.pieceView)
         }
     }
 }

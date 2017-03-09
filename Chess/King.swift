@@ -11,9 +11,9 @@ import UIKit
 
 class King: Piece
 {
-    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position)
     {
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .King)
+        super.init(pieceColor: pieceColor, at: position, type: .King)
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -11,9 +11,9 @@ import UIKit
 
 class Knight: Piece
 {
-    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position)
     {
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Knight)
+        super.init(pieceColor: pieceColor, at: position, type: .Knight)
     }
     
     required init?(coder aDecoder: NSCoder) {

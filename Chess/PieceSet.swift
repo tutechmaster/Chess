@@ -9,13 +9,13 @@
 import Foundation
 import UIKit
 protocol PieceSetDelegate {
-    func didFinishInitPieceSet(pieces: [Piece])
+    func didFinishInitPieceSet(pieceControllers: [PieceController])
 }
 class PieceSet
 {
     var delegate: PieceSetDelegate!
     var pieceOrder = [PieceType]()
-    var pieces = [Piece]()
+    var pieceControllers = [PieceController]()
     var color: PieceColor!
     var rowTotal: Int!
     var colTotal: Int!
@@ -32,7 +32,7 @@ class PieceSet
     func addPieces()
     {
         addPieces(color: color, rowTotal: rowTotal, colTotal: colTotal, width: width)
-        self.delegate?.didFinishInitPieceSet(pieces:self.pieces)
+        self.delegate?.didFinishInitPieceSet(pieceControllers:self.pieceControllers)
     }
     func addPieces(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat)
     {
@@ -73,39 +73,40 @@ class PieceSet
                 let currentPiece: Piece!
                 if(isFirst == false)
                 {
-                    currentPiece = Pawn(pieceColor: color, at: position, cellInfo: cellInfo)
+                    currentPiece = Pawn(pieceColor: color, at: position)
                     
                 }
                 else
                 {
-                    currentPiece = getPieceAt(type: self.pieceOrder[col] , color: color, at: position, cellInfo: cellInfo)
+                    currentPiece = getPieceAt(type: self.pieceOrder[col] , color: color, at: position)
                 }
-                self.pieces.append(currentPiece)
+                let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
+                self.pieceControllers.append(pieceController)
             }
             isFirst = false
         }
     }
-    func getPieceAt(type: PieceType, color: PieceColor, at position: Position, cellInfo: CellInfo) -> Piece
+    func getPieceAt(type: PieceType, color: PieceColor, at position: Position) -> Piece
     {
         let currentPiece: Piece!
         switch type {
         case .King:
-            currentPiece = King(pieceColor: color, at: position, cellInfo: cellInfo)
+            currentPiece = King(pieceColor: color, at: position)
             break
         case .Queen:
-            currentPiece = Queen(pieceColor: color, at: position, cellInfo: cellInfo)
+            currentPiece = Queen(pieceColor: color, at: position)
             break
         case .Rook:
-            currentPiece = Rook(pieceColor: color, at: position, cellInfo: cellInfo)
+            currentPiece = Rook(pieceColor: color, at: position)
             break
         case .Bishop:
-            currentPiece = Bishop(pieceColor: color, at: position, cellInfo: cellInfo)
+            currentPiece = Bishop(pieceColor: color, at: position)
             break
         case .Knight:
-            currentPiece = Knight(pieceColor: color, at: position, cellInfo: cellInfo)
+            currentPiece = Knight(pieceColor: color, at: position)
             break
         default:
-            currentPiece = Pawn(pieceColor: color, at: position, cellInfo: cellInfo)
+            currentPiece = Pawn(pieceColor: color, at: position)
             break
         }
         return currentPiece

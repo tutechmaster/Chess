@@ -11,9 +11,9 @@ import UIKit
 
 class Rook: Piece
 {
-    init(pieceColor: PieceColor, at position: Position, cellInfo: CellInfo)
+    init(pieceColor: PieceColor, at position: Position)
     {
-        super.init(pieceColor: pieceColor, at: position, cellInfo: cellInfo, type: .Rook)
+        super.init(pieceColor: pieceColor, at: position, type: .Rook)
     }
     
     required init?(coder aDecoder: NSCoder) {
