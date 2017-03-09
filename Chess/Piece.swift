@@ -8,7 +8,7 @@
 
 import Foundation
 protocol PieceModelDelegate {
-    
+    func didFinishMove(position: Position)
 }
 class Piece
 {
@@ -28,13 +28,15 @@ class Piece
     {
         return self.placeAt
     }
-    func setCurrentPlace(place: Position)
-    {
-        self.placeAt = place
-    }
+
     func validMoves(destination: Position) -> Bool
     {
         return false
+    }
+    func moveTo(destination: Position)
+    {
+        self.placeAt = destination
+        self.delegate?.didFinishMove(position: self.placeAt)
     }
     func attackSquares()
     {

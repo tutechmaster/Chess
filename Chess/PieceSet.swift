@@ -29,6 +29,18 @@ class PieceSet
         self.colTotal = colTotal
         self.width = width
     }
+    func getPieceAt(position: Position) -> Piece?
+    {
+        for pieceController in self.pieceControllers
+        {
+            if(pieceController.pieceModel.placeAt.row == position.row &&
+                pieceController.pieceModel.placeAt.col == position.col)
+            {
+                return pieceController.pieceModel
+            }
+        }
+        return nil
+    }
     func addPieces()
     {
         addPieces(color: color, rowTotal: rowTotal, colTotal: colTotal, width: width)
@@ -78,7 +90,7 @@ class PieceSet
                 }
                 else
                 {
-                    currentPiece = getPieceAt(type: self.pieceOrder[col] , color: color, at: position)
+                    currentPiece = createPieceWith(type: self.pieceOrder[col] , color: color, at: position)
                 }
                 let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
                 self.pieceControllers.append(pieceController)
@@ -86,7 +98,7 @@ class PieceSet
             isFirst = false
         }
     }
-    func getPieceAt(type: PieceType, color: PieceColor, at position: Position) -> Piece
+    func createPieceWith(type: PieceType, color: PieceColor, at position: Position) -> Piece
     {
         let currentPiece: Piece!
         switch type {
@@ -110,5 +122,9 @@ class PieceSet
             break
         }
         return currentPiece
+    }
+    func movePieceAt(fromPosition: Position, toPosition: Position)
+    {
+        
     }
 }

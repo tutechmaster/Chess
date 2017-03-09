@@ -25,7 +25,10 @@ class PieceController {
 }
 extension PieceController: PieceModelDelegate
 {
-    
+    func didFinishMove(position: Position)
+    {
+        self.pieceView.moveTo(row: position.row, col: position.col)
+    }
 }
 extension PieceController: PieceViewDelegate
 {
@@ -36,6 +39,6 @@ extension PieceController: PieceViewDelegate
         return self.pieceModel.getCurrentPlace()
     }
     func setCurrentPlace(place: Position) {
-        self.pieceModel.setCurrentPlace(place: place)
+        self.pieceModel.moveTo(destination: place)
     }
 }

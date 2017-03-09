@@ -41,7 +41,7 @@ class PieceView: UIImageView
     {
         let col = Int(point.x/self.frame.width)
         let row = Int(point.y/self.frame.height)
-        //kiểm tra người dùng kéo ra khỏi bàn cở, cần gọi model để xử lý.
+        //kiểm tra người dùng kéo ra khỏi bàn cở, cần gọi piecemodel để xử lý.
         //        if (row < 0 || row > self.rowTotal-1 || col < 0 || col > self.colTotal-1)
         //        {
         //            return nil
@@ -65,22 +65,26 @@ class PieceView: UIImageView
         {
             let point = panGesture.location(in: self.superview)
             let destinationPosition = calculateDestinationPosition(point: point)
-            let width = self.frame.size.width
-            let height = self.frame.size.height
+            
             
             //gọi đến validMoves bên model thông qua viewcontroller
             if(destinationPosition == nil || delegate.validMoves(destination: destinationPosition!) == false)
             {
                 let placeAt = delegate.getCurrentPlace()
-                self.frame = CGRect(origin: CGPoint(x: self.cellInfo.margin + CGFloat(CGFloat(placeAt.col)*width), y: cellInfo.margin + CGFloat(CGFloat(placeAt.row)*width)), size: CGSize(width: width, height: height))
+                self.moveTo(row: placeAt.row, col: placeAt.col)
             }
             else
             {
-                self.frame = CGRect(origin: CGPoint(x: self.cellInfo.margin + CGFloat(CGFloat(destinationPosition!.col)*width), y: cellInfo.margin + CGFloat(CGFloat(destinationPosition!.row)*width)), size: CGSize(width: width, height: height))
-                
+                self.moveTo(row: destinationPosition!.row, col: destinationPosition!.col)
                 //cập nhật bên model
                 delegate.setCurrentPlace(place: destinationPosition!)
             }
         }
+    }
+    func moveTo(row: Int, col: Int)
+    {
+        let width = self.frame.size.width
+        let height = self.frame.size.height
+        self.frame = CGRect(origin: CGPoint(x: self.cellInfo.margin + CGFloat(CGFloat(col)*width), y: cellInfo.margin + CGFloat(CGFloat(row)*width)), size: CGSize(width: width, height: height))
     }
 }
