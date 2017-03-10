@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-class GameManager
+class GameManager: UIView
 {
     var playedMoves: [Move]!
     var turn: PieceColor!
@@ -22,26 +22,27 @@ class GameManager
     var toPosition: UITextField!
     var nQueens:EightQueen!
     var queens = [[Position]]()
+    var stepSolutions = [[Step]]()
     
     
     
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
-
+        
         let boardView = Board(frame: CGRect(x: 0,
                                             y: viewcontroller.view.bounds.size.height / 2 - size / 2,
                                             width: size, height: size),
-                                            rowTotal: 8,
-                                            colTotal: 8)
+                              rowTotal: 8,
+                              colTotal: 8)
         viewcontroller.view.addSubview(boardView)
         self.mainView = boardView
         
         let width = self.mainView.frame.width/CGFloat(8)
-        self.addPieceSet(rowTotal: 8, colTotal: 8, width: width)
+        self.addPieceSet(rowTotal: 1, colTotal: 1, width: width)
         
         self.addBtnMove(toView: viewcontroller.view)
         self.addTextField(toView: viewcontroller.view)
-
+        
         
     }
     func addBtnMove(toView view: UIView)
@@ -56,43 +57,87 @@ class GameManager
     @objc func move(sender: UIButton)
     {
         moveQueen()
-//        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
-//        
-//        let toPosition = Position(row: Int((self.toPosition.text?.components(separatedBy: "-").first)!), col: Int((self.toPosition.text?.components(separatedBy: "-").last)!))
-//        
-//        var piece: Piece!
-//        for pieceSet in self.pieceSets
-//        {
-//            if let checkPiece = pieceSet.getPieceAt(position: fromPosition)
-//            {
-//                piece = checkPiece
-//                break
-//            }
-//        }
-//        if(piece != nil)
-//        {
-//            piece.moveTo(destination: toPosition)
-//        }
+        //        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
+        //
+        //        let toPosition = Position(row: Int((self.toPosition.text?.components(separatedBy: "-").first)!), col: Int((self.toPosition.text?.components(separatedBy: "-").last)!))
+        //
+        //        var piece: Piece!
+        //        for pieceSet in self.pieceSets
+        //        {
+        //            if let checkPiece = pieceSet.getPieceAt(position: fromPosition)
+        //            {
+        //                piece = checkPiece
+        //                break
+        //            }
+        //        }
+        //        if(piece != nil)
+        //        {
+        //            piece.moveTo(destination: toPosition)
+        //        }
     }
     
-//
+    //
     var currentIndexQueen = 0
-    func moveQueen(){
-        self.queens = nQueens.queens
-        var currentQueens = queens[currentIndexQueen]
-        if currentIndexQueen == currentQueens.count
+    var rowSolution = 0
+    var colSolution = 0
+    var currentSolition = [Step]()
+    func removeAllPieces()
+    {
+        for piece in self.mainView.subviews
         {
-            currentIndexQueen = 0
-            currentQueens = queens[0]
+            if piece is PieceView
+            {
+                piece.removeFromSuperview()
+            }
         }
-//        print(self.pieceSets.first!.pieceControllers.count)
-        for (index, pieceController) in self.pieceSets.first!.pieceControllers.enumerated(){
-            
-            pieceController.pieceModel.moveTo(destination: currentQueens[index])
+    }
+    func loop()
+    {
+        removeAllPieces()
+        currentSolition = self.stepSolutions[self.rowSolution]
+        animation()
+    }
+    func animation()
+    {
+        UIView.setAnimationsEnabled(true)
+        UIView.animate(withDuration: 2.0, animations: {
+            print(self.currentSolition[self.colSolution])
+            if(self.currentSolition[self.colSolution].isTrue == true)
+            {
+                self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].row-1, col: self.currentSolition[self.colSolution].col-1))
+            }
+        }) { (finished) in
+            self.colSolution = self.colSolution + 1
+            if(self.rowSolution == self.stepSolutions.count-1)
+            {
+                return
+            }
+            if(self.colSolution == self.currentSolition.count)
+            {
+                self.colSolution = 0
+                self.rowSolution = self.rowSolution + 1
+                self.loop()
+                return
+            }
+            self.animation()
         }
-        currentIndexQueen = currentIndexQueen + 1
-        print(currentIndexQueen)
-
+    }
+    func moveQueen(){
+        loop()
+        //        self.queens = nQueens.queens
+        //        if currentIndexQueen == nQueens.queens.count
+        //        {
+        //            currentIndexQueen = 0
+        //        }
+        //        var currentQueens = queens[currentIndexQueen]
+        ////        print(self.pieceSets.first!.pieceControllers.count)
+        //        for (index, pieceController) in self.pieceSets.first!.pieceControllers.enumerated(){
+        //
+        //            pieceController.pieceModel.moveTo(destination: currentQueens[index])
+        //        }
+        //        currentIndexQueen = currentIndexQueen + 1
+        //        print(currentIndexQueen)
+        
     }
     func addTextField(toView view: UIView)
     {
@@ -113,15 +158,15 @@ class GameManager
     
     private func addPieceSet(rowTotal: Int, colTotal: Int, width: CGFloat)
     {
-//        let blackPieceSet = PieceSet(color: .Black,
-//                                     rowTotal: rowTotal,
-//                                     colTotal: colTotal,
-//                                     width: width)
-//        blackPieceSet.delegate = self
-//        blackPieceSet.addPieces()
+        //        let blackPieceSet = PieceSet(color: .Black,
+        //                                     rowTotal: rowTotal,
+        //                                     colTotal: colTotal,
+        //                                     width: width)
+        //        blackPieceSet.delegate = self
+        //        blackPieceSet.addPieces()
         
-        nQueens = EightQueen(row: rowTotal, col: colTotal)
-        
+        nQueens = EightQueen(row: 4, col: 4)
+        self.stepSolutions = nQueens.stepSolutions
         self.pieceSets = [PieceSet]()
         
         let whitePieceSet = PieceSet(color: .White,
@@ -134,7 +179,7 @@ class GameManager
         self.pieceSetOnTop = PieceColor.White
         
         self.pieceSets.append(whitePieceSet)
-//        self.pieceSets.append(blackPieceSet)
+        //        self.pieceSets.append(blackPieceSet)
     }
     func addMove()
     {
@@ -160,5 +205,8 @@ extension GameManager: PieceSetDelegate
         {
             self.mainView.addSubview(pieceController.pieceView)
         }
+    }
+    func didFinishAddNewPiece(pieceController: PieceController){
+        self.mainView.addSubview(pieceController.pieceView)
     }
 }

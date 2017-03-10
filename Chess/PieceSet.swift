@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 protocol PieceSetDelegate {
     func didFinishInitPieceSet(pieceControllers: [PieceController])
+    func didFinishAddNewPiece(pieceController: PieceController)
 }
 class PieceSet
 {
@@ -37,6 +38,18 @@ class PieceSet
                 pieceController.pieceModel.placeAt.col == position.col)
             {
                 return pieceController.pieceModel
+            }
+        }
+        return nil
+    }
+    func getPieceControllerAt(position: Position) -> PieceController?
+    {
+        for pieceController in self.pieceControllers
+        {
+            if(pieceController.pieceModel.placeAt.row == position.row &&
+                pieceController.pieceModel.placeAt.col == position.col)
+            {
+                return pieceController
             }
         }
         return nil
@@ -69,6 +82,19 @@ class PieceSet
         
     }
     
+    func removeQueenAt(position: Position)
+    {
+//        self.pieceControllers.ind self.getPieceControllerAt(position: position)
+    }
+    func addnewQueenAt(position: Position)
+    {
+        let cellInfo = CellInfo(margin: 0, squareWidth: width)
+        let currentPiece: Piece!
+        currentPiece = Queen(pieceColor: color, at: position)
+        let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
+        self.pieceControllers.append(pieceController)
+        self.delegate?.didFinishAddNewPiece(pieceController: pieceController)
+    }
     func addPieceQueen(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat){
         
         let startCoordinates = Position(row: 0, col: 0)
@@ -88,13 +114,7 @@ class PieceSet
         endRow = endCoordinates.row
         for col in startCol...endCol {
             let position = Position(row: 0, col: col)
-            let cellInfo = CellInfo(margin: 0, squareWidth: width)
-            let currentPiece: Piece!
-
-                currentPiece = Queen(pieceColor: color, at: position)
-
-            let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
-            self.pieceControllers.append(pieceController)
+            self.addnewQueenAt(position: position)
         }
         
     }

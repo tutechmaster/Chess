@@ -44,7 +44,7 @@ class Board: UIView
                                                 width: cellSize, height: cellSize),
                                                 color: cellColor)
                 self.addSubview(cell)
-                print("\(indexRow), \(indexCol)")
+//                print("\(indexRow), \(indexCol)")
                 
             }
         }
