@@ -20,10 +20,14 @@ class GameManager
     var mainView: UIView!
     var fromPosition: UITextField!
     var toPosition: UITextField!
+    var nQueens:EightQueen!
+    var queens = [[Position]]()
+    
+    
     
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
-        self.pieceSets = [PieceSet]()
+
         let boardView = Board(frame: CGRect(x: 0,
                                             y: viewcontroller.view.bounds.size.height / 2 - size / 2,
                                             width: size, height: size),
@@ -37,7 +41,7 @@ class GameManager
         
         self.addBtnMove(toView: viewcontroller.view)
         self.addTextField(toView: viewcontroller.view)
-        
+
         
     }
     func addBtnMove(toView view: UIView)
@@ -51,23 +55,44 @@ class GameManager
     }
     @objc func move(sender: UIButton)
     {
-        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
-        
-        let toPosition = Position(row: Int((self.toPosition.text?.components(separatedBy: "-").first)!), col: Int((self.toPosition.text?.components(separatedBy: "-").last)!))
-        
-        var piece: Piece!
-        for pieceSet in self.pieceSets
+        moveQueen()
+//        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
+//        
+//        let toPosition = Position(row: Int((self.toPosition.text?.components(separatedBy: "-").first)!), col: Int((self.toPosition.text?.components(separatedBy: "-").last)!))
+//        
+//        var piece: Piece!
+//        for pieceSet in self.pieceSets
+//        {
+//            if let checkPiece = pieceSet.getPieceAt(position: fromPosition)
+//            {
+//                piece = checkPiece
+//                break
+//            }
+//        }
+//        if(piece != nil)
+//        {
+//            piece.moveTo(destination: toPosition)
+//        }
+    }
+    
+//
+    var currentIndexQueen = 0
+    func moveQueen(){
+        self.queens = nQueens.queens
+        var currentQueens = queens[currentIndexQueen]
+        if currentIndexQueen == currentQueens.count
         {
-            if let checkPiece = pieceSet.getPieceAt(position: fromPosition)
-            {
-                piece = checkPiece
-                break
-            }
+            currentIndexQueen = 0
+            currentQueens = queens[0]
         }
-        if(piece != nil)
-        {
-            piece.moveTo(destination: toPosition)
+//        print(self.pieceSets.first!.pieceControllers.count)
+        for (index, pieceController) in self.pieceSets.first!.pieceControllers.enumerated(){
+            
+            pieceController.pieceModel.moveTo(destination: currentQueens[index])
         }
+        currentIndexQueen = currentIndexQueen + 1
+        print(currentIndexQueen)
+
     }
     func addTextField(toView view: UIView)
     {
@@ -88,12 +113,16 @@ class GameManager
     
     private func addPieceSet(rowTotal: Int, colTotal: Int, width: CGFloat)
     {
-        let blackPieceSet = PieceSet(color: .Black,
-                                     rowTotal: rowTotal,
-                                     colTotal: colTotal,
-                                     width: width)
-        blackPieceSet.delegate = self
-        blackPieceSet.addPieces()
+//        let blackPieceSet = PieceSet(color: .Black,
+//                                     rowTotal: rowTotal,
+//                                     colTotal: colTotal,
+//                                     width: width)
+//        blackPieceSet.delegate = self
+//        blackPieceSet.addPieces()
+        
+        nQueens = EightQueen(row: rowTotal, col: colTotal)
+        
+        self.pieceSets = [PieceSet]()
         
         let whitePieceSet = PieceSet(color: .White,
                                      rowTotal: rowTotal,
@@ -105,7 +134,7 @@ class GameManager
         self.pieceSetOnTop = PieceColor.White
         
         self.pieceSets.append(whitePieceSet)
-        self.pieceSets.append(blackPieceSet)
+//        self.pieceSets.append(blackPieceSet)
     }
     func addMove()
     {

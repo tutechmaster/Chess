@@ -1,47 +1,42 @@
 //
-//  ViewController.swift
-//  NQueens
+//  EightQueen.swift
+//  Chess
 //
-//  Created by Tuuu on 3/10/17.
+//  Created by Loc Tran on 3/10/17.
 //  Copyright © 2017 Tuuu. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+class EightQueen {
+    
     var trace = [Int]()
-    let nQueens = 4
+    var queens = [[Position]]()
     var index = 0
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        trace = [Int](repeating: 0, count: nQueens+1)
-        nQueens(row: 1, col: nQueens)
-        print(index)
-        // Do any additional setup after loading the view, typically from a nib.
+    init(row: Int, col: Int) {
+        trace = [Int](repeating: 0, count: row+1)
+        nQueens(row: 1, col: col)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
-    func output()
-    {
+    func output(){
+        
+        
+        var currentPositions = [Position]()
         for i in 1..<trace.count
         {
-            print("row:\(i) col:\(trace[i])")
+            let queen = Position(row: i - 1, col: trace[i] - 1 )
+            currentPositions.append(queen)
+            
         }
+        queens.append(currentPositions)
         
-        print("____________________")
     }
     func nQueens(row: Int, col: Int)
         
     {
+        
         for checkCol in 1...col
         {
-            index = index + 1
             if(isSafePlace(newRow: row, newCol: checkCol))
             {
                 trace[row] = checkCol
@@ -55,12 +50,13 @@ class ViewController: UIViewController {
                 }
             }
         }
+        
     }
     
     func isSafePlace(newRow: Int, newCol: Int) -> Bool
         
     {
-        for checkRow in 1..<newRow
+        for checkRow in 1...newRow
             
         {
             if(trace[checkRow] == newCol || abs(checkRow - newRow) == abs(trace[checkRow]-newCol))
@@ -74,5 +70,5 @@ class ViewController: UIViewController {
         
     }
 
+    
 }
-

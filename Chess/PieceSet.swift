@@ -43,7 +43,7 @@ class PieceSet
     }
     func addPieces()
     {
-        addPieces(color: color, rowTotal: rowTotal, colTotal: colTotal, width: width)
+        addPieceQueen(color: color, rowTotal: rowTotal-1, colTotal: colTotal-1, width: width)
         self.delegate?.didFinishInitPieceSet(pieceControllers:self.pieceControllers)
     }
     func addPieces(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat)
@@ -65,6 +65,36 @@ class PieceSet
                                color: color,
                                width: width)
             break
+        }
+        
+    }
+    
+    func addPieceQueen(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat){
+        
+        let startCoordinates = Position(row: 0, col: 0)
+        let endCoordinates = Position(row: 1, col: colTotal)
+        self.addPieceQueenWith(startCoordinates: startCoordinates,
+                           endCoordinates: endCoordinates,
+                           color: color,
+                           width: width)
+    }
+    
+    func addPieceQueenWith(startCoordinates: Position, endCoordinates: Position, color: PieceColor, width: CGFloat){
+        var isFirst = true // when isFirst == false, we just add pawns to the board
+        var startRow = 0, endRow = 0
+        let startCol = startCoordinates.col!
+        let endCol = endCoordinates.col!
+        startRow = startCoordinates.row
+        endRow = endCoordinates.row
+        for col in startCol...endCol {
+            let position = Position(row: 0, col: col)
+            let cellInfo = CellInfo(margin: 0, squareWidth: width)
+            let currentPiece: Piece!
+
+                currentPiece = Queen(pieceColor: color, at: position)
+
+            let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
+            self.pieceControllers.append(pieceController)
         }
         
     }

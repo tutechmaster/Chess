@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C73584121E726B750023F411 /* EightQueen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73584111E726B750023F411 /* EightQueen.swift */; };
 		CB81AF8D1E70F45A00FAF2B4 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */; };
 		CB81AF901E70F79000FAF2B4 /* PieceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */; };
 		CB8614041E6FA49300FF4F8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8614031E6FA49300FF4F8D /* AppDelegate.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C73584111E726B750023F411 /* EightQueen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightQueen.swift; sourceTree = "<group>"; };
 		CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
 		CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceController.swift; sourceTree = "<group>"; };
 		CB8614001E6FA49300FF4F8D /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				CB8614161E6FA4D700FF4F8D /* GameManager.swift */,
+				C73584111E726B750023F411 /* EightQueen.swift */,
 			);
 			name = GameManager;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				CB8614291E6FA5AA00FF4F8D /* Move.swift in Sources */,
 				CB8614171E6FA4D700FF4F8D /* GameManager.swift in Sources */,
 				CB8614391E6FA63C00FF4F8D /* Bishop.swift in Sources */,
+				C73584121E726B750023F411 /* EightQueen.swift in Sources */,
 				CB81AF8D1E70F45A00FAF2B4 /* PieceView.swift in Sources */,
 				CB8614451E6FAAA200FF4F8D /* ComputerPlayer.swift in Sources */,
 				CB8614211E6FA54200FF4F8D /* Board.swift in Sources */,
