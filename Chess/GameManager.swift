@@ -38,7 +38,7 @@ class GameManager: UIView
         self.mainView = boardView
         
         let width = self.mainView.frame.width/CGFloat(colTotal)
-        self.addPieceSet(rowTotal: rowTotal/2, colTotal: colTotal/2, width: width)
+        self.addPieceSet(rowTotal: rowTotal, colTotal: colTotal, width: width)
         
         self.addBtnMove(toView: viewcontroller.view)
         self.addTextField(toView: viewcontroller.view)
@@ -83,26 +83,15 @@ class GameManager: UIView
     var currentSolition = [Step]()
     func removeAllPieces()
     {
-        for piece in self.mainView.subviews
-        {
-            if piece is PieceView
-            {
-                piece.removeFromSuperview()
-            }
-        }
-        self.pieceSets.first?.pieceControllers.removeAll()
+        self.pieceSets.first?.removeAllPieceControllers()
     }
     func removeBacktrackedPieces(backtrackStep: Step)
     {
+        //6 8
         if(self.colSolution > 0)
         {
-            for _ in 0..<(backtrackStep.backtrack)*(self.colTotal/2)
-            {
-                self.mainView.subviews.last?.removeFromSuperview()
-            }
+            self.pieceSets.first?.removeBacktrackedPieceControllers(backtrack: backtrackStep)
         }
-        self.pieceSets.first?.removeQueenAt(position: Position(row: backtrackStep.rootPosition.row - 1, col: backtrackStep.rootPosition.col - 1))
-        print("----")
     }
     func loop()
     {
@@ -114,7 +103,7 @@ class GameManager: UIView
     func animation()
     {
         UIView.setAnimationsEnabled(true)
-        UIView.animate(withDuration: 1.0, animations: {
+        UIView.animate(withDuration: 0.05, animations: {
             print(self.currentSolition[self.colSolution])
             if(self.currentSolition[self.colSolution].backtrack > 0)
             {
@@ -190,7 +179,7 @@ class GameManager: UIView
         //        blackPieceSet.delegate = self
         //        blackPieceSet.addPieces()
         
-        nQueens = EightQueen(row: self.rowTotal/2, col: self.rowTotal/2)
+        nQueens = EightQueen(row: self.rowTotal, col: self.rowTotal)
         self.stepSolutions = nQueens.stepSolutions
         self.pieceSets = [PieceSet]()
         
@@ -199,7 +188,7 @@ class GameManager: UIView
                                      colTotal: colTotal,
                                      width: width)
         whitePieceSet.delegate = self
-        whitePieceSet.addPieces()
+//        whitePieceSet.addPieces()
         
         self.pieceSetOnTop = PieceColor.White
         
@@ -225,6 +214,10 @@ class GameManager: UIView
 }
 extension GameManager: PieceSetDelegate
 {
+    func didRemovePieceController(pieceView: PieceView)
+    {
+        pieceView.removeFromSuperview()
+    }
     func didFinishInitPieceSet(pieceControllers: [PieceController]) {
         for pieceController in pieceControllers
         {

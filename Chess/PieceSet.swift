@@ -11,6 +11,7 @@ import UIKit
 protocol PieceSetDelegate {
     func didFinishInitPieceSet(pieceControllers: [PieceController])
     func didFinishAddNewPiece(pieceController: PieceController)
+    func didRemovePieceController(pieceView: PieceView)
 }
 class PieceSet
 {
@@ -29,6 +30,43 @@ class PieceSet
         self.rowTotal = rowTotal
         self.colTotal = colTotal
         self.width = width
+    }
+    func removePieceModel(piece: Piece)
+    {
+        for pieceController in self.pieceControllers
+        {
+            if(pieceController.pieceModel.placeAt == piece.placeAt)
+            {
+                self.removePieceController(pieceController: pieceController)
+            }
+        }
+    }
+    func removePieceController(pieceController: PieceController)
+    {
+        self.pieceControllers.remove(object: pieceController)
+        self.delegate.didRemovePieceController(pieceView: pieceController.pieceView)
+    }
+    func removeAllPieceControllers()
+    {
+        for pieceController in self.pieceControllers
+        {
+            self.removePieceController(pieceController: pieceController)
+        }
+    }
+    func removeBacktrackedPieceControllers(backtrack: Step)
+    {
+        var currentPieceControllers = self.pieceControllers
+        let numberOfPieceControllers = self.pieceControllers.count-1
+        let rootBacktrack = Position(row: backtrack.rootPosition.row-1, col: backtrack.rootPosition.col-1)
+        for index in 0..<backtrack.backtrack*(self.colTotal)
+        {
+            if(currentPieceControllers[numberOfPieceControllers - index].pieceModel.placeAt != rootBacktrack)
+            {
+                self.removePieceController(pieceController: currentPieceControllers[numberOfPieceControllers - index])
+            }
+            
+        }
+        self.setUnSafePlaceForRootPosition(pieceController: self.getPieceControllerAt(position: rootBacktrack)!)
     }
     func getPieceAt(position: Position) -> Piece?
     {
@@ -94,31 +132,20 @@ class PieceSet
         
     }
     
-    func setNotSafePlaceForRootPosition(pieceController: PieceController)
+    func setUnSafePlaceForRootPosition(pieceController: PieceController)
     {
         var piece = pieceController.pieceModel
         while true {
             self.getPieceViewAt(position: (Position(row: ((piece?.placeAt.row)!),
                                                     col: (piece?.placeAt.col)!)))?.image = UIImage(named: "NoneNone")
+            piece?.type = .None
+            self.rootPiece = piece?.root
             if(piece?.root == nil || piece?.placeAt.col != self.colTotal-1)
             {
                 return
             }
+            self.removePieceModel(piece: piece!)
             piece = piece?.root
-        }
-    }
-    func removeQueenAt(position: Position)
-    {
-        let currentPieceControllers = self.pieceControllers
-        for pieceController in currentPieceControllers
-        {
-            if(pieceController.pieceModel!.placeAt == position)
-            {
-                setNotSafePlaceForRootPosition(pieceController: pieceController)
-//                pieceController.pieceView.image = UIImage(named: "NoneNone")
-//                self.addnewQueenAt(position: position, isTrue: false)
-//                self.pieceControllers.remove(object: pieceController)
-            }
         }
     }
     func addnewQueenAt(position: Position, isTrue: Bool)
@@ -134,7 +161,11 @@ class PieceSet
             currentPiece = Queen(pieceColor: color, at: position)
         }
         currentPiece.root = self.rootPiece
-        self.rootPiece = currentPiece
+        //Khi piece ở dòng mới thì mới đổi rootPiece
+        if(currentPiece.type != .None)
+        {
+            self.rootPiece = currentPiece
+        }
         let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
         self.pieceControllers.append(pieceController)
         self.delegate?.didFinishAddNewPiece(pieceController: pieceController)
