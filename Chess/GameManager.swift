@@ -23,8 +23,8 @@ class GameManager: UIView
     var nQueens:EightQueen!
     var queens = [[Position]]()
     var stepSolutions = [[Step]]()
-    
-    
+    let rowTotal = 8
+    let colTotal = 8
     
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
@@ -32,12 +32,12 @@ class GameManager: UIView
         let boardView = Board(frame: CGRect(x: 0,
                                             y: viewcontroller.view.bounds.size.height / 2 - size / 2,
                                             width: size, height: size),
-                              rowTotal: 8,
-                              colTotal: 8)
+                              rowTotal: rowTotal,
+                              colTotal: colTotal)
         viewcontroller.view.addSubview(boardView)
         self.mainView = boardView
         
-        let width = self.mainView.frame.width/CGFloat(8)
+        let width = self.mainView.frame.width/CGFloat(colTotal)
         self.addPieceSet(rowTotal: 1, colTotal: 1, width: width)
         
         self.addBtnMove(toView: viewcontroller.view)
@@ -91,8 +91,17 @@ class GameManager: UIView
             }
         }
     }
+    func removeBacktrackedPieces()
+    {
+        for _ in 0..<self.colTotal/2
+        {
+            self.mainView.subviews.last?.removeFromSuperview()
+        }
+    }
     func loop()
     {
+        rowSolution = 2
+        print("-----------\(self.rowSolution)")
         removeAllPieces()
         currentSolition = self.stepSolutions[self.rowSolution]
         animation()
@@ -102,18 +111,29 @@ class GameManager: UIView
         UIView.setAnimationsEnabled(true)
         UIView.animate(withDuration: 2.0, animations: {
             print(self.currentSolition[self.colSolution])
-            if(self.currentSolition[self.colSolution].isTrue == true)
+            if(self.currentSolition[self.colSolution].isBackTrack == true)
             {
-                self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].row-1, col: self.currentSolition[self.colSolution].col-1))
+                self.removeBacktrackedPieces()
+            }
+            else
+            {
+                if(self.currentSolition[self.colSolution].isTrue == true)
+                {
+                    self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: true)
+                }
+                else
+                {
+                    self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: false)
+                }
             }
         }) { (finished) in
             self.colSolution = self.colSolution + 1
-            if(self.rowSolution == self.stepSolutions.count-1)
-            {
-                return
-            }
             if(self.colSolution == self.currentSolition.count)
             {
+                if(self.rowSolution == self.stepSolutions.count-1)
+                {
+                    return
+                }
                 self.colSolution = 0
                 self.rowSolution = self.rowSolution + 1
                 self.loop()
@@ -165,7 +185,7 @@ class GameManager: UIView
         //        blackPieceSet.delegate = self
         //        blackPieceSet.addPieces()
         
-        nQueens = EightQueen(row: 4, col: 4)
+        nQueens = EightQueen(row: self.rowTotal/2, col: self.rowTotal/2)
         self.stepSolutions = nQueens.stepSolutions
         self.pieceSets = [PieceSet]()
         

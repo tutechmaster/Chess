@@ -86,11 +86,18 @@ class PieceSet
     {
 //        self.pieceControllers.ind self.getPieceControllerAt(position: position)
     }
-    func addnewQueenAt(position: Position)
+    func addnewQueenAt(position: Position, isTrue: Bool)
     {
         let cellInfo = CellInfo(margin: 0, squareWidth: width)
         let currentPiece: Piece!
-        currentPiece = Queen(pieceColor: color, at: position)
+        if(isTrue == false)
+        {
+            currentPiece = Piece(pieceColor: .None, at: position, type: .None)
+        }
+        else
+        {
+            currentPiece = Queen(pieceColor: color, at: position)
+        }
         let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
         self.pieceControllers.append(pieceController)
         self.delegate?.didFinishAddNewPiece(pieceController: pieceController)
@@ -114,7 +121,7 @@ class PieceSet
         endRow = endCoordinates.row
         for col in startCol...endCol {
             let position = Position(row: 0, col: col)
-            self.addnewQueenAt(position: position)
+            self.addnewQueenAt(position: position, isTrue: true)
         }
         
     }

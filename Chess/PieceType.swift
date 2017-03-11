@@ -10,5 +10,5 @@ import Foundation
 
 enum PieceType:String
 {
-    case Pawn, King, Queen, Rook, Bishop, Knight
+    case Pawn, King, Queen, Rook, Bishop, Knight, None
 }

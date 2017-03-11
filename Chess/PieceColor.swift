@@ -10,5 +10,5 @@ import Foundation
 
 enum PieceColor: String
 {
-    case Black, White
+    case Black, White, None
 }

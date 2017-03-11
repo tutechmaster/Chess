@@ -9,9 +9,10 @@
 import Foundation
 import UIKit
 struct Step {
-    var row:Int
-    var col:Int
+    var rootPosition:Position!
+    var position:Position!
     var isTrue: Bool
+    var isBackTrack: Bool
 }
 class EightQueen {
     var steps = [Step]()
@@ -23,7 +24,7 @@ class EightQueen {
     init(row: Int, col: Int) {
         self.totalCol = col
         trace = [Int](repeating: 0, count: row+1)
-        nQueens(row: 1, col: col)
+        nQueens(row: 1, col: col, rootCol: 0)
         detectSteps()
 //        loop()
         print("Done")
@@ -34,15 +35,44 @@ class EightQueen {
         for step in self.steps
         {
 //            print(step.col)
+            
             curretSolution.append(step)
-            if((step.col == self.totalCol && step.isTrue == false) || (step.row == self.totalCol))
+            if(step.position.col == self.totalCol)
             {
-                stepSolutions.append(curretSolution)
-                curretSolution = [Step]()
+                var backtrackedStep = step
+                if(step.isTrue == false)
+                {
+                    backtrackedStep.isBackTrack = true
+                    curretSolution.append(backtrackedStep)
+                }
+                if(step.rootPosition.col == self.totalCol)
+                {
+                    if(step.isTrue == false || (step.isTrue == true && step.position.row == self.totalCol))
+                    {
+                        stepSolutions.append(curretSolution)
+                        curretSolution = [Step]()
+                    }
+                    
+                    //                curretSolution = self.removeStepsAt(row: step.row, solution: curretSolution)
+                }
             }
+            
 
         }
     }
+//    func removeStepsAt(row: Int, solution: [Step]) -> [Step]
+//    {
+//        var currentSolution = solution
+//
+//        for step in solution
+//        {
+//            if(step.row == row)
+//            {
+//                currentSolution.removeObject(object: step)
+//            }
+//        }
+//        return currentSolution
+//    }
     func output(){
         stepSolutions.append(steps)
         steps = [Step]()
@@ -56,11 +86,11 @@ class EightQueen {
         queens.append(currentPositions)
         
     }
-    func nQueens(row: Int, col: Int)
+    func nQueens(row: Int, col: Int, rootCol: Int)
     {
         for checkCol in 1...col
         {
-            if(isSafePlace(newRow: row, newCol: checkCol))
+            if(isSafePlace(newRow: row, newCol: checkCol, rootPosition: Position(row: row-1, col: rootCol)))
             {
                 trace[row] = checkCol
                 if(row == col)
@@ -69,16 +99,16 @@ class EightQueen {
                 }
                 else
                 {
-                    nQueens(row: row+1, col: col)
+                    nQueens(row: row+1, col: col, rootCol: checkCol)
                 }
             }
         }
 //        self.output()
     }
     
-    func isSafePlace(newRow: Int, newCol: Int) -> Bool
+    func isSafePlace(newRow: Int, newCol: Int, rootPosition: Position) -> Bool
     {
-        var step = Step(row: newRow, col: newCol, isTrue: true)
+        var step = Step(rootPosition: rootPosition, position: Position(row: newRow, col: newCol), isTrue: true, isBackTrack: false)
         for checkRow in 1..<newRow
         {
             if(trace[checkRow] == newCol || abs(checkRow - newRow) == abs(trace[checkRow]-newCol))
@@ -122,3 +152,30 @@ class EightQueen {
     }
     
 }
+//extension Step: Equatable
+//{
+//    /// Returns a Boolean value indicating whether two values are equal.
+//    ///
+//    /// Equality is the inverse of inequality. For any values `a` and `b`,
+//    /// `a == b` implies that `a != b` is `false`.
+//    ///
+//    /// - Parameters:
+//    ///   - lhs: A value to compare.
+//    ///   - rhs: Another value to compare.
+//    public static func ==(lhs: Step, rhs: Step) -> Bool {
+//        if (lhs.row == rhs.row && lhs.col == rhs.col && lhs.isTrue == rhs.isTrue)
+//        {
+//            return true
+//        }
+//        return false
+//    }
+//}
+//extension Array where Element: Equatable
+//{
+//    mutating func removeObject(object: Element) {
+//        
+//        if let index = index(of: object) {
+//            remove(at: index)
+//        }
+//    }
+//}
