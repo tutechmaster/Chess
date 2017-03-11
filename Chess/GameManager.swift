@@ -38,7 +38,7 @@ class GameManager: UIView
         self.mainView = boardView
         
         let width = self.mainView.frame.width/CGFloat(colTotal)
-        self.addPieceSet(rowTotal: 1, colTotal: 1, width: width)
+        self.addPieceSet(rowTotal: rowTotal/2, colTotal: colTotal/2, width: width)
         
         self.addBtnMove(toView: viewcontroller.view)
         self.addTextField(toView: viewcontroller.view)
@@ -90,12 +90,13 @@ class GameManager: UIView
                 piece.removeFromSuperview()
             }
         }
+        self.pieceSets.first?.pieceControllers.removeAll()
     }
     func removeBacktrackedPieces(backtrackStep: Step)
     {
         if(self.colSolution > 0)
         {
-            for _ in 0..<(backtrackStep.backtrack)*(self.colTotal)
+            for _ in 0..<(backtrackStep.backtrack)*(self.colTotal/2)
             {
                 self.mainView.subviews.last?.removeFromSuperview()
             }
@@ -189,7 +190,7 @@ class GameManager: UIView
         //        blackPieceSet.delegate = self
         //        blackPieceSet.addPieces()
         
-        nQueens = EightQueen(row: self.rowTotal, col: self.rowTotal)
+        nQueens = EightQueen(row: self.rowTotal/2, col: self.rowTotal/2)
         self.stepSolutions = nQueens.stepSolutions
         self.pieceSets = [PieceSet]()
         

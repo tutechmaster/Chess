@@ -13,6 +13,7 @@ protocol PieceModelDelegate {
 
 class Piece
 {
+    var root: Piece!
     var delegate: PieceModelDelegate!
     var pieceColor: PieceColor!
     var placeAt: Position!

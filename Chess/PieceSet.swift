@@ -21,7 +21,7 @@ class PieceSet
     var rowTotal: Int!
     var colTotal: Int!
     var width: CGFloat!
-    
+    var rootPiece: Piece!
     
     init(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat) {
         pieceOrder.append(contentsOf: [.Rook, .Knight, .Bishop, .Queen, .King, .Bishop, .Knight, .Rook])
@@ -38,6 +38,18 @@ class PieceSet
                 pieceController.pieceModel.placeAt.col == position.col)
             {
                 return pieceController.pieceModel
+            }
+        }
+        return nil
+    }
+    func getPieceViewAt(position: Position) -> PieceView?
+    {
+        for pieceController in self.pieceControllers
+        {
+            if(pieceController.pieceModel.placeAt.row == position.row &&
+                pieceController.pieceModel.placeAt.col == position.col)
+            {
+                return pieceController.pieceView
             }
         }
         return nil
@@ -82,6 +94,19 @@ class PieceSet
         
     }
     
+    func setNotSafePlaceForRootPosition(pieceController: PieceController)
+    {
+        var piece = pieceController.pieceModel
+        while true {
+            self.getPieceViewAt(position: (Position(row: ((piece?.placeAt.row)!),
+                                                    col: (piece?.placeAt.col)!)))?.image = UIImage(named: "NoneNone")
+            if(piece?.root == nil || piece?.placeAt.col != self.colTotal-1)
+            {
+                return
+            }
+            piece = piece?.root
+        }
+    }
     func removeQueenAt(position: Position)
     {
         let currentPieceControllers = self.pieceControllers
@@ -89,7 +114,8 @@ class PieceSet
         {
             if(pieceController.pieceModel!.placeAt == position)
             {
-                pieceController.pieceView.image = UIImage(named: "NoneNone")
+                setNotSafePlaceForRootPosition(pieceController: pieceController)
+//                pieceController.pieceView.image = UIImage(named: "NoneNone")
 //                self.addnewQueenAt(position: position, isTrue: false)
 //                self.pieceControllers.remove(object: pieceController)
             }
@@ -107,6 +133,8 @@ class PieceSet
         {
             currentPiece = Queen(pieceColor: color, at: position)
         }
+        currentPiece.root = self.rootPiece
+        self.rootPiece = currentPiece
         let pieceController = PieceController(pieceModel: currentPiece, cellInfo: cellInfo)
         self.pieceControllers.append(pieceController)
         self.delegate?.didFinishAddNewPiece(pieceController: pieceController)
