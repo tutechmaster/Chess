@@ -10,6 +10,7 @@ import Foundation
 protocol PieceModelDelegate {
     func didFinishMove(position: Position)
 }
+
 class Piece
 {
     var delegate: PieceModelDelegate!

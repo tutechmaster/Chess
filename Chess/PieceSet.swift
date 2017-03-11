@@ -16,7 +16,7 @@ class PieceSet
 {
     var delegate: PieceSetDelegate!
     var pieceOrder = [PieceType]()
-    var pieceControllers = [PieceController]()
+    var pieceControllers = Array<PieceController>()
     var color: PieceColor!
     var rowTotal: Int!
     var colTotal: Int!
@@ -84,7 +84,16 @@ class PieceSet
     
     func removeQueenAt(position: Position)
     {
-//        self.pieceControllers.ind self.getPieceControllerAt(position: position)
+        let currentPieceControllers = self.pieceControllers
+        for pieceController in currentPieceControllers
+        {
+            if(pieceController.pieceModel!.placeAt == position)
+            {
+                pieceController.pieceView.image = UIImage(named: "NoneNone")
+//                self.addnewQueenAt(position: position, isTrue: false)
+//                self.pieceControllers.remove(object: pieceController)
+            }
+        }
     }
     func addnewQueenAt(position: Position, isTrue: Bool)
     {
@@ -183,5 +192,12 @@ class PieceSet
     func movePieceAt(fromPosition: Position, toPosition: Position)
     {
         
+    }
+}
+extension Array where Element: AnyObject {
+    mutating func remove(object: Element) {
+        if let index = index(where: { $0 === object }) {
+            remove(at: index)
+        }
     }
 }

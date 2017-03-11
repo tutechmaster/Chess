@@ -12,6 +12,17 @@ struct Position {
     var row: Int!
     var col: Int!
 }
+extension Position: Equatable
+{
+    static func ==(lhs: Position, rhs: Position) -> Bool
+    {
+        if(lhs.row == rhs.row && lhs.col == rhs.col)
+        {
+            return true
+        }
+        return false
+    }
+}
 struct CellInfo {
     var margin: CGFloat!
     var squareWidth: CGFloat!

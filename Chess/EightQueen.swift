@@ -12,7 +12,7 @@ struct Step {
     var rootPosition:Position!
     var position:Position!
     var isTrue: Bool
-    var isBackTrack: Bool
+    var backtrack: Int
 }
 class EightQueen {
     var steps = [Step]()
@@ -32,33 +32,37 @@ class EightQueen {
     func detectSteps()
     {
         var curretSolution = [Step]()
+        var previousStep = self.steps.first
         for step in self.steps
         {
-//            print(step.col)
-            
-            curretSolution.append(step)
-            if(step.position.col == self.totalCol)
+            var backTrack: Step!
+            if(previousStep?.position.row != step.position.row)
             {
-                var backtrackedStep = step
-                if(step.isTrue == false)
+                if(previousStep?.position.col == self.totalCol)
                 {
-                    backtrackedStep.isBackTrack = true
-                    curretSolution.append(backtrackedStep)
-                }
-                if(step.rootPosition.col == self.totalCol)
-                {
-                    if(step.isTrue == false || (step.isTrue == true && step.position.row == self.totalCol))
+                    if(previousStep?.position.row == self.totalCol || previousStep?.isTrue == false)
                     {
-                        stepSolutions.append(curretSolution)
-                        curretSolution = [Step]()
+                        backTrack = previousStep
+                        backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
                     }
-                    
-                    //                curretSolution = self.removeStepsAt(row: step.row, solution: curretSolution)
                 }
+                
             }
+            if(step.position.row == 1 && step.position.col != 1)
+            {
+                self.stepSolutions.append(curretSolution)
+                curretSolution = [Step]()
+            }
+            if(backTrack != nil)
+            {
+                curretSolution.append(backTrack)
+            }
+            curretSolution.append(step)
             
-
+            previousStep = step
         }
+        self.stepSolutions.append(curretSolution)
+        curretSolution = [Step]()
     }
 //    func removeStepsAt(row: Int, solution: [Step]) -> [Step]
 //    {
@@ -108,7 +112,7 @@ class EightQueen {
     
     func isSafePlace(newRow: Int, newCol: Int, rootPosition: Position) -> Bool
     {
-        var step = Step(rootPosition: rootPosition, position: Position(row: newRow, col: newCol), isTrue: true, isBackTrack: false)
+        var step = Step(rootPosition: rootPosition, position: Position(row: newRow, col: newCol), isTrue: true, backtrack: 0)
         for checkRow in 1..<newRow
         {
             if(trace[checkRow] == newCol || abs(checkRow - newRow) == abs(trace[checkRow]-newCol))

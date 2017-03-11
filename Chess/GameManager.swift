@@ -91,16 +91,20 @@ class GameManager: UIView
             }
         }
     }
-    func removeBacktrackedPieces()
+    func removeBacktrackedPieces(backtrackStep: Step)
     {
-        for _ in 0..<self.colTotal/2
+        if(self.colSolution > 0)
         {
-            self.mainView.subviews.last?.removeFromSuperview()
+            for _ in 0..<(backtrackStep.backtrack)*(self.colTotal)
+            {
+                self.mainView.subviews.last?.removeFromSuperview()
+            }
         }
+        self.pieceSets.first?.removeQueenAt(position: Position(row: backtrackStep.rootPosition.row - 1, col: backtrackStep.rootPosition.col - 1))
+        print("----")
     }
     func loop()
     {
-        rowSolution = 2
         print("-----------\(self.rowSolution)")
         removeAllPieces()
         currentSolition = self.stepSolutions[self.rowSolution]
@@ -109,11 +113,11 @@ class GameManager: UIView
     func animation()
     {
         UIView.setAnimationsEnabled(true)
-        UIView.animate(withDuration: 2.0, animations: {
+        UIView.animate(withDuration: 1.0, animations: {
             print(self.currentSolition[self.colSolution])
-            if(self.currentSolition[self.colSolution].isBackTrack == true)
+            if(self.currentSolition[self.colSolution].backtrack > 0)
             {
-                self.removeBacktrackedPieces()
+                self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
             }
             else
             {
@@ -185,7 +189,7 @@ class GameManager: UIView
         //        blackPieceSet.delegate = self
         //        blackPieceSet.addPieces()
         
-        nQueens = EightQueen(row: self.rowTotal/2, col: self.rowTotal/2)
+        nQueens = EightQueen(row: self.rowTotal, col: self.rowTotal)
         self.stepSolutions = nQueens.stepSolutions
         self.pieceSets = [PieceSet]()
         
