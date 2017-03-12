@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C73584121E726B750023F411 /* EightQueen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73584111E726B750023F411 /* EightQueen.swift */; };
+		C74FDE4A1E75AA130069C926 /* water.png in Resources */ = {isa = PBXBuildFile; fileRef = C74FDE491E75AA130069C926 /* water.png */; };
 		CB81AF8D1E70F45A00FAF2B4 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */; };
 		CB81AF901E70F79000FAF2B4 /* PieceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */; };
 		CB8614041E6FA49300FF4F8D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8614031E6FA49300FF4F8D /* AppDelegate.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		C73584111E726B750023F411 /* EightQueen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightQueen.swift; sourceTree = "<group>"; };
+		C74FDE491E75AA130069C926 /* water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = water.png; sourceTree = "<group>"; };
 		CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
 		CB81AF8F1E70F79000FAF2B4 /* PieceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceController.swift; sourceTree = "<group>"; };
 		CB8614001E6FA49300FF4F8D /* Chess.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Chess.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -116,6 +118,7 @@
 		CB8614021E6FA49300FF4F8D /* Chess */ = {
 			isa = PBXGroup;
 			children = (
+				C74FDE491E75AA130069C926 /* water.png */,
 				CB81AF8E1E70F77300FAF2B4 /* Controller */,
 				CB81AF8B1E70F44E00FAF2B4 /* Views */,
 				CB86141F1E6FA52B00FF4F8D /* Player */,
@@ -276,6 +279,7 @@
 				CB86140E1E6FA49300FF4F8D /* LaunchScreen.storyboard in Resources */,
 				CB86140B1E6FA49300FF4F8D /* Assets.xcassets in Resources */,
 				CB8614091E6FA49300FF4F8D /* Main.storyboard in Resources */,
+				C74FDE4A1E75AA130069C926 /* water.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

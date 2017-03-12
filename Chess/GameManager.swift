@@ -28,8 +28,8 @@ class GameManager: UIView
     var nQueens:EightQueen!
     var queens = [[Position]]()
     var stepSolutions = [[Step]]()
-    let rowTotal = 4
-    let colTotal = 4
+    let rowTotal = 5
+    let colTotal = 5
     var dem = 0
     var delegate: UpdateSolutionFound!
     
@@ -129,7 +129,7 @@ class GameManager: UIView
     func animation()
     {
         UIView.setAnimationsEnabled(true)
-        UIView.animate(withDuration: 2.05, animations: {
+        UIView.animate(withDuration: 0.005, animations: {
             print(self.currentSolition[self.colSolution])
             if(self.currentSolition[self.colSolution].backtrack > 0)
             {
@@ -150,10 +150,14 @@ class GameManager: UIView
             print(("Count: \(self.dem)"))
            print("Row: \(self.currentSolition[self.colSolution].position.row)")
            print("Check: \(self.currentSolition[self.colSolution].isTrue)")
-            if(self.currentSolition[self.colSolution].position.row == 4 && self.currentSolition[self.colSolution].isTrue == true){
+           
+            
+            if(self.currentSolition[self.colSolution].position.row == 5 && self.currentSolition[self.colSolution].isTrue == true){
                 self.dem = self.dem + 1
                 print("SolutionFind:\(self.dem)")
             }
+            
+            
             self.colSolution = self.colSolution + 1
             print("RowSolution: \(self.rowSolution)")
             print("col: \(self.colSolution)")
