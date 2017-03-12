@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "whitequeen60.png",
+      "filename" : "AliceQueen.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "Nqueen.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "whitequeen60.png",
       "scale" : "3x"
     }
   ],

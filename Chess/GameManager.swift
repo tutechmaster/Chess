@@ -8,8 +8,13 @@
 
 import Foundation
 import UIKit
+
+
+
 class GameManager: UIView
 {
+   
+
     var playedMoves: [Move]!
     var turn: PieceColor!
     var players: [Player]!
@@ -23,8 +28,10 @@ class GameManager: UIView
     var nQueens:EightQueen!
     var queens = [[Position]]()
     var stepSolutions = [[Step]]()
-    let rowTotal = 8
-    let colTotal = 8
+    let rowTotal = 4
+    let colTotal = 4
+    var dem = 0
+    var delegate: UpdateSolutionFound!
     
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
@@ -41,22 +48,40 @@ class GameManager: UIView
         self.addPieceSet(rowTotal: rowTotal, colTotal: colTotal, width: width)
         
         self.addBtnMove(toView: viewcontroller.view)
-        self.addTextField(toView: viewcontroller.view)
+        self.addSolutionText(toView: viewcontroller.view)
+//        self.addTextField(toView: viewcontroller.view)
         
         
     }
+    
+    func countSolution(){
+        self.dem = 0
+        delegate.updateSolution(solutionFound: self.dem)
+    }
+    
+    
+    func addSolutionText(toView view: UIView){
+        let lbl = UILabel(frame: CGRect(x: view.bounds.size.width/2-120, y: 90, width: 120, height: 30))
+        lbl.text = "Solution Found: "
+        view.addSubview(lbl)
+        
+    }
+   
+    
     func addBtnMove(toView view: UIView)
     {
-        let btn = UIButton(frame: CGRect(x: 20, y: 50, width: 50, height: 30))
-        btn.backgroundColor = UIColor.black
-        btn.titleLabel?.textColor = UIColor.white
-        btn.setTitle("Move", for: .normal)
+        let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2-40, y: 30, width: 80, height: 50))
+        btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+        btn.setTitleColor(UIColor.white, for: UIControlState.normal)
+        btn.setTitle("Start", for: .normal)
         btn.addTarget(self, action: #selector(move(sender:)), for: .touchUpInside)
         view.addSubview(btn)
     }
     @objc func move(sender: UIButton)
     {
         moveQueen()
+        sender.setTitle("Running", for: UIControlState.normal)
+        sender.setTitleColor(UIColor.red, for: UIControlState.normal)
         //        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
         //
         //        let toPosition = Position(row: Int((self.toPosition.text?.components(separatedBy: "-").first)!), col: Int((self.toPosition.text?.components(separatedBy: "-").last)!))
@@ -100,10 +125,11 @@ class GameManager: UIView
         currentSolition = self.stepSolutions[self.rowSolution]
         animation()
     }
+    
     func animation()
     {
         UIView.setAnimationsEnabled(true)
-        UIView.animate(withDuration: 0.05, animations: {
+        UIView.animate(withDuration: 2.05, animations: {
             print(self.currentSolition[self.colSolution])
             if(self.currentSolition[self.colSolution].backtrack > 0)
             {
@@ -121,8 +147,18 @@ class GameManager: UIView
                 }
             }
         }) { (finished) in
+            print(("Count: \(self.dem)"))
+           print("Row: \(self.currentSolition[self.colSolution].position.row)")
+           print("Check: \(self.currentSolition[self.colSolution].isTrue)")
+            if(self.currentSolition[self.colSolution].position.row == 4 && self.currentSolition[self.colSolution].isTrue == true){
+                self.dem = self.dem + 1
+                print("SolutionFind:\(self.dem)")
+            }
             self.colSolution = self.colSolution + 1
-            if(self.colSolution == self.currentSolition.count)
+            print("RowSolution: \(self.rowSolution)")
+            print("col: \(self.colSolution)")
+
+             if (self.colSolution == self.currentSolition.count)
             {
                 if(self.rowSolution == self.stepSolutions.count-1)
                 {
@@ -153,6 +189,7 @@ class GameManager: UIView
         //        print(currentIndexQueen)
         
     }
+    
     func addTextField(toView view: UIView)
     {
         fromPosition = UITextField(frame: CGRect(x: 80, y: 50, width: 60, height: 30))

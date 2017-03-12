@@ -35,14 +35,16 @@ class Board: UIView
             for indexCol in 0..<colTotal
             {
                 if ((indexCol + indexRow) % 2 == 0){
-                    cellColor = UIColor.gray
+                    cellColor = UIColor.yellow.withAlphaComponent(0.2)
+                    
                 }else{
-                    cellColor = UIColor.white
+                    cellColor = UIColor.brown.withAlphaComponent(0.9)
                 }
                 let cell = Square(frame: CGRect(x: CGFloat(indexRow) * cellSize,
                                                 y: CGFloat(indexCol) * cellSize,
                                                 width: cellSize, height: cellSize),
                                                 color: cellColor)
+                
                 self.addSubview(cell)
 //                print("\(indexRow), \(indexCol)")
                 

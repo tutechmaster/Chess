@@ -40,10 +40,21 @@ class EightQueen {
             {
                 if(previousStep?.position.col == self.totalCol)
                 {
-                    if(previousStep?.position.row == self.totalCol || previousStep?.isTrue == false)
-                    {
+//                    if(previousStep?.position.row == self.totalCol || previousStep?.isTrue == false)
+//                    {
+//                        backTrack = previousStep
+//                        backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
+//                    }
+                    
+                if( previousStep?.isTrue == false)
+                {
                         backTrack = previousStep
                         backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
+                }
+                else if(previousStep?.position.row == self.totalCol){
+                   
+                    backTrack = previousStep
+                    backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
                     }
                 }
                 
@@ -134,11 +145,16 @@ class EightQueen {
         currentSolition = self.stepSolutions[self.rowSolution]
         animation()
     }
+    var dem = 0
     func animation()
     {
         UIView.animate(withDuration: 1.0, animations: {
             print(self.currentSolition[self.colSolution])
         }) { (finished) in
+            if(self.currentSolition[self.colSolution].position.row == 4 && self.currentSolition[self.colSolution].isTrue == true){
+                self.dem = self.dem + 1
+                print("SolutionFind:\(self.dem)")
+            }
             self.colSolution = self.colSolution + 1
             if(self.rowSolution == self.stepSolutions.count-1)
             {

@@ -137,7 +137,7 @@ class PieceSet
         var piece = pieceController.pieceModel
         while true {
             self.getPieceViewAt(position: (Position(row: ((piece?.placeAt.row)!),
-                                                    col: (piece?.placeAt.col)!)))?.image = UIImage(named: "NoneNone")
+                                                    col: (piece?.placeAt.col)!)))?.image = UIImage(named: "False")
             piece?.type = .None
             self.rootPiece = piece?.root
             if(piece?.root == nil || piece?.placeAt.col != self.colTotal-1)
