@@ -13,8 +13,8 @@ import UIKit
 
 class GameManager: UIView
 {
-   
-
+    
+    
     var playedMoves: [Move]!
     var turn: PieceColor!
     var players: [Player]!
@@ -28,8 +28,8 @@ class GameManager: UIView
     var nQueens:EightQueen!
     var queens = [[Position]]()
     var stepSolutions = [[Step]]()
-    let rowTotal = 5
-    let colTotal = 5
+    let rowTotal = 4
+    let colTotal = 4
     var dem = 0
     var delegate: UpdateSolutionFound!
     
@@ -49,7 +49,7 @@ class GameManager: UIView
         
         self.addBtnMove(toView: viewcontroller.view)
         self.addSolutionText(toView: viewcontroller.view)
-//        self.addTextField(toView: viewcontroller.view)
+        //        self.addTextField(toView: viewcontroller.view)
         
         
     }
@@ -66,7 +66,7 @@ class GameManager: UIView
         view.addSubview(lbl)
         
     }
-   
+    
     
     func addBtnMove(toView view: UIView)
     {
@@ -101,7 +101,7 @@ class GameManager: UIView
         //        }
     }
     
-    //
+    //Vòng lặp animation
     var currentIndexQueen = 0
     var rowSolution = 0
     var colSolution = 0
@@ -112,7 +112,6 @@ class GameManager: UIView
     }
     func removeBacktrackedPieces(backtrackStep: Step)
     {
-        //6 8
         if(self.colSolution > 0)
         {
             self.pieceSets.first?.removeBacktrackedPieceControllers(backtrack: backtrackStep)
@@ -129,40 +128,41 @@ class GameManager: UIView
     func animation()
     {
         UIView.setAnimationsEnabled(true)
-        UIView.animate(withDuration: 0.005, animations: {
+        UIView.animate(withDuration: 1, animations: {
             print(self.currentSolition[self.colSolution])
+            //Nếu bước đi mà là backtrack thì sẽ xoá các dòng và quay lại root của piece hiện tại
             if(self.currentSolition[self.colSolution].backtrack > 0)
             {
                 self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
             }
             else
             {
+                //Nếu vị trí đúng thì add piece
                 if(self.currentSolition[self.colSolution].isTrue == true)
                 {
                     self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: true)
                 }
                 else
                 {
+                    //ngược lại add dấu X
                     self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: false)
                 }
             }
         }) { (finished) in
-            print(("Count: \(self.dem)"))
-           print("Row: \(self.currentSolition[self.colSolution].position.row)")
-           print("Check: \(self.currentSolition[self.colSolution].isTrue)")
-           
-            
-            if(self.currentSolition[self.colSolution].position.row == 5 && self.currentSolition[self.colSolution].isTrue == true){
+            //Kiểm tra đâu là bước đúng
+            if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
                 self.dem = self.dem + 1
+                self.screenShotMethod(name: String(self.dem))
                 print("SolutionFind:\(self.dem)")
             }
             
-            
+            //Khi kết thúc animation thì tăng col lên 1
             self.colSolution = self.colSolution + 1
             print("RowSolution: \(self.rowSolution)")
             print("col: \(self.colSolution)")
-
-             if (self.colSolution == self.currentSolition.count)
+            
+            //Nếu col là dòng cuối cùng của solution đó thì tăng row lên 1
+            if (self.colSolution == self.currentSolition.count)
             {
                 if(self.rowSolution == self.stepSolutions.count-1)
                 {
@@ -175,6 +175,17 @@ class GameManager: UIView
             }
             self.animation()
         }
+    }
+    func screenShotMethod(name: String) {
+        let layer = UIApplication.shared.keyWindow!.layer
+        let scale = UIScreen.main.scale
+        UIGraphicsBeginImageContextWithOptions(layer.frame.size, false, scale);
+        
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let screenshot = UIImagePNGRepresentation(UIGraphicsGetImageFromCurrentImageContext()!)
+        UIGraphicsEndImageContext()
+        let path = URL(fileURLWithPath: "/Users/nguyenvantu/Desktop/Solutions/\(name).png")
+        try! screenshot?.write(to: path)
     }
     func moveQueen(){
         loop()
@@ -229,7 +240,7 @@ class GameManager: UIView
                                      colTotal: colTotal,
                                      width: width)
         whitePieceSet.delegate = self
-//        whitePieceSet.addPieces()
+        //        whitePieceSet.addPieces()
         
         self.pieceSetOnTop = PieceColor.White
         
