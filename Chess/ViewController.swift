@@ -22,18 +22,19 @@ class ViewController: UIViewController, UpdateSolutionFound, UIGestureRecognizer
     var mainViewSize = CGSize()
 
 
+    @IBOutlet weak var btn_PauseSolution: UIButton!
    
     @IBOutlet weak var lbl_solution: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addWater()
+//        addWater()
         self.gamemanager = GameManager()
         self.gamemanager.initGameWith(viewcontroller: self, size: self.view.bounds.size.width)
-         let timeWater = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(waterRoll), userInfo: nil, repeats: true)
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan))
-        water.isUserInteractionEnabled = true
-        water.addGestureRecognizer(panGesture)
+//         let timeWater = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(waterRoll), userInfo: nil, repeats: true)
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(onPan))
+//        water.isUserInteractionEnabled = true
+//        water.addGestureRecognizer(panGesture)
 
     }
     
@@ -61,6 +62,12 @@ class ViewController: UIViewController, UpdateSolutionFound, UIGestureRecognizer
         }
     }
 
+    @IBAction func action_Pause(_ sender: UIButton) {
+        self.gamemanager.pause = !self.gamemanager.pause
+        
+        let title  = self.gamemanager.pause ? "Pause": "Resume"
+        btn_PauseSolution.setTitle(title, for: UIControlState())
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C713460F1E76812A00E65416 /* ViewAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C713460E1E76812A00E65416 /* ViewAnimation.swift */; };
+		C71346111E76AAAF00E65416 /* TestAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71346101E76AAAF00E65416 /* TestAnimation.swift */; };
 		C73584121E726B750023F411 /* EightQueen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73584111E726B750023F411 /* EightQueen.swift */; };
 		C74FDE4A1E75AA130069C926 /* water.png in Resources */ = {isa = PBXBuildFile; fileRef = C74FDE491E75AA130069C926 /* water.png */; };
 		CB81AF8D1E70F45A00FAF2B4 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */; };
@@ -39,6 +41,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C713460E1E76812A00E65416 /* ViewAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewAnimation.swift; sourceTree = "<group>"; };
+		C71346101E76AAAF00E65416 /* TestAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAnimation.swift; sourceTree = "<group>"; };
 		C73584111E726B750023F411 /* EightQueen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EightQueen.swift; sourceTree = "<group>"; };
 		C74FDE491E75AA130069C926 /* water.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = water.png; sourceTree = "<group>"; };
 		CB81AF8C1E70F45A00FAF2B4 /* PieceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 			children = (
 				CB8614161E6FA4D700FF4F8D /* GameManager.swift */,
 				C73584111E726B750023F411 /* EightQueen.swift */,
+				C713460E1E76812A00E65416 /* ViewAnimation.swift */,
+				C71346101E76AAAF00E65416 /* TestAnimation.swift */,
 			);
 			name = GameManager;
 			sourceTree = "<group>";
@@ -302,6 +308,7 @@
 				CB86143D1E6FA65600FF4F8D /* Pawn.swift in Sources */,
 				CB8614351E6FA62400FF4F8D /* King.swift in Sources */,
 				CB8614471E6FAAC600FF4F8D /* HumanPlayer.swift in Sources */,
+				C713460F1E76812A00E65416 /* ViewAnimation.swift in Sources */,
 				CB8614251E6FA55A00FF4F8D /* Piece.swift in Sources */,
 				CB8614291E6FA5AA00FF4F8D /* Move.swift in Sources */,
 				CB8614171E6FA4D700FF4F8D /* GameManager.swift in Sources */,
@@ -314,6 +321,7 @@
 				CB86142D1E6FA5C000FF4F8D /* CheckStatus.swift in Sources */,
 				CB86143B1E6FA64C00FF4F8D /* Rook.swift in Sources */,
 				CB8614041E6FA49300FF4F8D /* AppDelegate.swift in Sources */,
+				C71346111E76AAAF00E65416 /* TestAnimation.swift in Sources */,
 				CB8614411E6FA83500FF4F8D /* PieceSet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

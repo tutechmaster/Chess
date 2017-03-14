@@ -29,6 +29,8 @@ class EightQueen {
 //        loop()
         print("Done")
     }
+    
+    //Chia các solution từ mảng Steps
     func detectSteps()
     {
         var curretSolution = [Step]()
@@ -36,8 +38,9 @@ class EightQueen {
         for step in self.steps
         {
             var backTrack: Step!
+                        //Tìm ra step là backTrack, chỉ xảy ra khi row thay đổi
             if(previousStep?.position.row != step.position.row)
-            {
+            {                   //Và previousStep.col là cuối cùng
                 if(previousStep?.position.col == self.totalCol)
                 {
 //                    if(previousStep?.position.row == self.totalCol || previousStep?.isTrue == false)
@@ -45,61 +48,37 @@ class EightQueen {
 //                        backTrack = previousStep
 //                        backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
 //                    }
-                    
+                //trường hợp step đó là sai thì đó chính là backTrack
                 if( previousStep?.isTrue == false)
                 {
                         backTrack = previousStep
                         backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
                 }
+                //Trường hợp step đó đúng và row là cuối cùng thì đó là backTrack
                 else if(previousStep?.position.row == self.totalCol){
                    
                     backTrack = previousStep
                     backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
                     }
+                    if(backTrack != nil){
+                        curretSolution.append(backTrack)
+                    }
                 }
                 
             }
+            //Khi step ở vị trí row 1 thì nó chính ra solution tiếp theo
             if(step.position.row == 1 && step.position.col != 1)
             {
                 self.stepSolutions.append(curretSolution)
                 curretSolution = [Step]()
             }
-            if(backTrack != nil)
-            {
-                curretSolution.append(backTrack)
-            }
+           
             curretSolution.append(step)
             
             previousStep = step
         }
         self.stepSolutions.append(curretSolution)
         curretSolution = [Step]()
-    }
-//    func removeStepsAt(row: Int, solution: [Step]) -> [Step]
-//    {
-//        var currentSolution = solution
-//
-//        for step in solution
-//        {
-//            if(step.row == row)
-//            {
-//                currentSolution.removeObject(object: step)
-//            }
-//        }
-//        return currentSolution
-//    }
-    func output(){
-        stepSolutions.append(steps)
-        steps = [Step]()
-        var currentPositions = [Position]()
-        for i in 1..<trace.count
-        {
-            let queen = Position(row: i - 1, col: trace[i] - 1 )
-            currentPositions.append(queen)
-            
-        }
-        queens.append(currentPositions)
-        
     }
     func nQueens(row: Int, col: Int, rootCol: Int)
     {
@@ -108,17 +87,12 @@ class EightQueen {
             if(isSafePlace(newRow: row, newCol: checkCol, rootPosition: Position(row: row-1, col: rootCol)))
             {
                 trace[row] = checkCol
-                if(row == col)
-                {
-//                    self.output()
-                }
-                else
+                if(row != col)
                 {
                     nQueens(row: row+1, col: col, rootCol: checkCol)
                 }
             }
         }
-//        self.output()
     }
     
     func isSafePlace(newRow: Int, newCol: Int, rootPosition: Position) -> Bool
@@ -137,60 +111,4 @@ class EightQueen {
         return true
         
     }
-    var rowSolution = 0
-    var colSolution = 0
-    var currentSolition = [Step]()
-    func loop()
-    {
-        currentSolition = self.stepSolutions[self.rowSolution]
-        animation()
-    }
-    func animation()
-    {
-        UIView.animate(withDuration: 1.0, animations: {
-            print(self.currentSolition[self.colSolution])
-        }) { (finished) in
-                       self.colSolution = self.colSolution + 1
-            if(self.rowSolution == self.stepSolutions.count-1)
-            {
-                return
-            }
-            if(self.colSolution == self.currentSolition.count-1)
-            {
-                self.colSolution = 0
-                self.rowSolution = self.rowSolution + 1
-                self.loop()
-                return
-            }
-            self.animation()
-        }
-    }
-    
 }
-//extension Step: Equatable
-//{
-//    /// Returns a Boolean value indicating whether two values are equal.
-//    ///
-//    /// Equality is the inverse of inequality. For any values `a` and `b`,
-//    /// `a == b` implies that `a != b` is `false`.
-//    ///
-//    /// - Parameters:
-//    ///   - lhs: A value to compare.
-//    ///   - rhs: Another value to compare.
-//    public static func ==(lhs: Step, rhs: Step) -> Bool {
-//        if (lhs.row == rhs.row && lhs.col == rhs.col && lhs.isTrue == rhs.isTrue)
-//        {
-//            return true
-//        }
-//        return false
-//    }
-//}
-//extension Array where Element: Equatable
-//{
-//    mutating func removeObject(object: Element) {
-//        
-//        if let index = index(of: object) {
-//            remove(at: index)
-//        }
-//    }
-//}

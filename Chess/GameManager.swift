@@ -28,10 +28,20 @@ class GameManager: UIView
     var nQueens:EightQueen!
     var queens = [[Position]]()
     var stepSolutions = [[Step]]()
-    let rowTotal = 5
-    let colTotal = 5
+    var rowTotal = 4
+    var colTotal = 4
     var dem = 0
     var delegate: UpdateSolutionFound!
+    var lblSolutionFound:UILabel!
+    var sizeBoard:UITextField!
+    var pause: Bool = false{
+        didSet {
+            if pause == false{
+                animation()
+            }
+        }
+    }
+
     
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
@@ -49,7 +59,9 @@ class GameManager: UIView
         
         self.addBtnMove(toView: viewcontroller.view)
         self.addSolutionText(toView: viewcontroller.view)
-//        self.addTextField(toView: viewcontroller.view)
+        self.addSolutionFound(toView: viewcontroller.view)
+        self.addSizeBoard(toView: viewcontroller.view)
+//      self.addTextField(toView: viewcontroller.view)
         
         
     }
@@ -66,7 +78,11 @@ class GameManager: UIView
         view.addSubview(lbl)
         
     }
-   
+    func addSolutionFound(toView view: UIView){
+        lblSolutionFound = UILabel(frame: CGRect(x: view.bounds.size.width/2 + 20, y: 90, width: 50, height: 30))
+        lblSolutionFound.text = "0"
+        view.addSubview(lblSolutionFound)
+    }
     
     func addBtnMove(toView view: UIView)
     {
@@ -80,6 +96,9 @@ class GameManager: UIView
     @objc func move(sender: UIButton)
     {
         moveQueen()
+//        self.rowTotal = Int(self.sizeBoard.text!)!
+//        self.colTotal = Int(self.sizeBoard.text!)!
+
         sender.setTitle("Running", for: UIControlState.normal)
         sender.setTitleColor(UIColor.red, for: UIControlState.normal)
         //        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
@@ -101,7 +120,7 @@ class GameManager: UIView
         //        }
     }
     
-    //
+    //vong lap animation
     var currentIndexQueen = 0
     var rowSolution = 0
     var colSolution = 0
@@ -126,42 +145,96 @@ class GameManager: UIView
         animation()
     }
     
-    func animation()
-    {
+    func nextSolution(){
+        currentSolition = self.stepSolutions[self.rowSolution]
+        nextAnimation()
+
+    }
+    
+    func nextAnimation(){
+        
+
+        
         UIView.setAnimationsEnabled(true)
         UIView.animate(withDuration: 0.005, animations: {
-            print(self.currentSolition[self.colSolution])
+            //Nếu bước đi mà là backtrack thì sẽ xoá các dòng và quay lại root của piece hiện tại
             if(self.currentSolition[self.colSolution].backtrack > 0)
             {
                 self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
             }
             else
             {
+                //Nếu vị trí đúng thì add piece
                 if(self.currentSolition[self.colSolution].isTrue == true)
                 {
                     self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: true)
                 }
                 else
-                {
+                {   //ngược lại add dấu X
                     self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: false)
                 }
             }
         }) { (finished) in
-            print(("Count: \(self.dem)"))
-           print("Row: \(self.currentSolition[self.colSolution].position.row)")
-           print("Check: \(self.currentSolition[self.colSolution].isTrue)")
-           
-            
-            if(self.currentSolition[self.colSolution].position.row == 5 && self.currentSolition[self.colSolution].isTrue == true){
+            //Kiem tra dau la buoc dung
+            if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
                 self.dem = self.dem + 1
-                print("SolutionFind:\(self.dem)")
+                self.lblSolutionFound.text = String(self.dem)
             }
             
             
             self.colSolution = self.colSolution + 1
-            print("RowSolution: \(self.rowSolution)")
-            print("col: \(self.colSolution)")
+            
+            // Neu col la dong cuoi thi solution do tang row len 1
+            if (self.colSolution == self.currentSolition.count)
+            {
+                if(self.rowSolution == self.stepSolutions.count-1)
+                {
+                    return
+                }
+                self.colSolution = 0
+                self.rowSolution = self.rowSolution + 1
+            }
+        }
 
+    }
+    
+    func animation()
+    {
+        guard !pause else {
+            return
+        }
+        
+        UIView.setAnimationsEnabled(true)
+        UIView.animate(withDuration: 0.005, animations: {
+            print(self.currentSolition[self.colSolution])
+            //Nếu bước đi mà là backtrack thì sẽ xoá các dòng và quay lại root của piece hiện tại
+            if(self.currentSolition[self.colSolution].backtrack > 0)
+            {
+                self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
+            }
+            else
+            {
+                //Nếu vị trí đúng thì add piece
+                if(self.currentSolition[self.colSolution].isTrue == true)
+                {
+                    self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: true)
+                }
+                else
+                {   //ngược lại add dấu X
+                    self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: false)
+                }
+            }
+        }) { (finished) in
+            //Kiem tra dau la buoc dung
+            if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
+                self.dem = self.dem + 1
+                self.lblSolutionFound.text = String(self.dem)
+            }
+            
+            
+            self.colSolution = self.colSolution + 1
+
+            // Neu col la dong cuoi thi solution do tang row len 1
              if (self.colSolution == self.currentSolition.count)
             {
                 if(self.rowSolution == self.stepSolutions.count-1)
@@ -177,7 +250,9 @@ class GameManager: UIView
         }
     }
     func moveQueen(){
-        loop()
+//        loop()
+        nextSolution()
+        
         //        self.queens = nQueens.queens
         //        if currentIndexQueen == nQueens.queens.count
         //        {
@@ -192,6 +267,14 @@ class GameManager: UIView
         //        currentIndexQueen = currentIndexQueen + 1
         //        print(currentIndexQueen)
         
+    }
+    
+    func addSizeBoard(toView view: UIView){
+        sizeBoard = UITextField(frame: CGRect(x: view.bounds.size.width/2-40, y: view.bounds.size.height-100, width: 80, height: 50))
+        sizeBoard.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
+        sizeBoard.textColor = UIColor.white
+        sizeBoard.placeholder = "Size"
+        view.addSubview(sizeBoard)
     }
     
     func addTextField(toView view: UIView)
