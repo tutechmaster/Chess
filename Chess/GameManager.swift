@@ -37,7 +37,7 @@ class GameManager: UIView
     var pause: Bool = false{
         didSet {
             if pause == false{
-                animation()
+                autoAnimation()
             }
         }
     }
@@ -61,8 +61,9 @@ class GameManager: UIView
         self.addSolutionText(toView: viewcontroller.view)
         self.addSolutionFound(toView: viewcontroller.view)
         self.addSizeBoard(toView: viewcontroller.view)
+        self.addBtnNext(toView: viewcontroller.view)
+        self.addBtnPrevious(toView: viewcontroller.view)
 //      self.addTextField(toView: viewcontroller.view)
-        
         
     }
     
@@ -120,6 +121,31 @@ class GameManager: UIView
         //        }
     }
     
+    func addBtnNext(toView view: UIView){
+        let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2+80, y: view.bounds.size.height-70, width: 80, height: 40))
+        btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+        btn.setTitleColor(UIColor.white, for: UIControlState.normal)
+        btn.setTitle("Next", for: .normal)
+        btn.addTarget(self, action: #selector(next(sender:)), for: .touchUpInside)
+        view.addSubview(btn)
+    }
+    
+    func addBtnPrevious(toView view: UIView){
+         let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2-160, y: view.bounds.size.height-70, width: 80, height: 40))
+    btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+    btn.setTitleColor(UIColor.white, for: UIControlState.normal)
+    btn.setTitle("Previous", for: .normal)
+    btn.addTarget(self, action: #selector(previvous(sender:)), for: .touchUpInside)
+    view.addSubview(btn)
+    }
+    
+    @objc func next(sender: UIButton){
+        nextAction()
+    }
+    @objc func previvous(sender: UIButton){
+        previousAction()
+    }
+    
     //vong lap animation
     var currentIndexQueen = 0
     var rowSolution = 0
@@ -142,13 +168,18 @@ class GameManager: UIView
         print("-----------\(self.rowSolution)")
         removeAllPieces()
         currentSolition = self.stepSolutions[self.rowSolution]
-        animation()
+        autoAnimation()
     }
     
-    func nextSolution(){
+    func nextAction(){
         currentSolition = self.stepSolutions[self.rowSolution]
         nextAnimation()
 
+    }
+    
+    func previousAction(){
+        currentSolition = self.stepSolutions[self.rowSolution]
+        previousAnimation()
     }
     
     func nextAnimation(){
@@ -197,8 +228,28 @@ class GameManager: UIView
         }
 
     }
+    func previousAnimation(){
+        
+        self.colSolution = self.colSolution - 1
+        
+        self.didRemovePieceController(pieceView: self.pieceSets.first?.delegate as! PieceView )
+//        self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
+        
+        if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
+            self.dem = self.dem - 1
+            self.lblSolutionFound.text = String(self.dem)
+        }
+        
+        if (self.colSolution == 0){
+            if (self.rowSolution == 0){
+                return
+            }
+            self.colSolution = colTotal
+            self.rowSolution = self.rowSolution - 1
+        }
+    }
     
-    func animation()
+    func autoAnimation()
     {
         guard !pause else {
             return
@@ -246,12 +297,12 @@ class GameManager: UIView
                 self.loop()
                 return
             }
-            self.animation()
+            self.autoAnimation()
         }
     }
     func moveQueen(){
-//        loop()
-        nextSolution()
+        loop()
+    
         
         //        self.queens = nQueens.queens
         //        if currentIndexQueen == nQueens.queens.count
