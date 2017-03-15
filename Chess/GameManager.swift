@@ -14,7 +14,7 @@ import UIKit
 class GameManager: UIView
 {
    
-
+    var boardView: Board!
     var playedMoves: [Move]!
     var turn: PieceColor!
     var players: [Player]!
@@ -33,7 +33,6 @@ class GameManager: UIView
     var dem = 0
     var delegate: UpdateSolutionFound!
     var lblSolutionFound:UILabel!
-    var sizeBoard:UITextField!
     var pause: Bool = false{
         didSet {
             if pause == false{
@@ -46,7 +45,7 @@ class GameManager: UIView
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
         
-        let boardView = Board(frame: CGRect(x: 0,
+         boardView = Board(frame: CGRect(x: 0,
                                             y: viewcontroller.view.bounds.size.height / 2 - size / 2,
                                             width: size, height: size),
                               rowTotal: rowTotal,
@@ -60,9 +59,9 @@ class GameManager: UIView
         self.addBtnMove(toView: viewcontroller.view)
         self.addSolutionText(toView: viewcontroller.view)
         self.addSolutionFound(toView: viewcontroller.view)
-        self.addSizeBoard(toView: viewcontroller.view)
         self.addBtnNext(toView: viewcontroller.view)
         self.addBtnPrevious(toView: viewcontroller.view)
+        
 //      self.addTextField(toView: viewcontroller.view)
         
     }
@@ -97,9 +96,8 @@ class GameManager: UIView
     @objc func move(sender: UIButton)
     {
         moveQueen()
-//        self.rowTotal = Int(self.sizeBoard.text!)!
-//        self.colTotal = Int(self.sizeBoard.text!)!
-
+     
+        
         sender.setTitle("Running", for: UIControlState.normal)
         sender.setTitleColor(UIColor.red, for: UIControlState.normal)
         //        let fromPosition = Position(row: Int((self.fromPosition.text?.components(separatedBy: "-").first)!), col: Int((self.fromPosition.text?.components(separatedBy: "-").last)!))
@@ -144,6 +142,7 @@ class GameManager: UIView
     }
     @objc func previvous(sender: UIButton){
         previousAction()
+
     }
     
     //vong lap animation
@@ -232,8 +231,9 @@ class GameManager: UIView
         
         self.colSolution = self.colSolution - 1
         
-        self.didRemovePieceController(pieceView: self.pieceSets.first?.delegate as! PieceView )
-//        self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
+//        self.didRemovePieceController(pieceView: self.pieceSets.first?.delegate as! PieceView )
+        self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
+        
         
         if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
             self.dem = self.dem - 1
@@ -320,13 +320,7 @@ class GameManager: UIView
         
     }
     
-    func addSizeBoard(toView view: UIView){
-        sizeBoard = UITextField(frame: CGRect(x: view.bounds.size.width/2-40, y: view.bounds.size.height-100, width: 80, height: 50))
-        sizeBoard.backgroundColor = UIColor.gray.withAlphaComponent(0.5)
-        sizeBoard.textColor = UIColor.white
-        sizeBoard.placeholder = "Size"
-        view.addSubview(sizeBoard)
-    }
+   
     
     func addTextField(toView view: UIView)
     {
