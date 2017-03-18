@@ -34,6 +34,7 @@ class GameManager: UIView
     var dem = 0
     var lblSolutionFound:UILabel!
     var btnStart:UIButton!
+    var btnNext:UIButton!
     var pause: Bool = false{
         didSet {
             if pause == false{
@@ -125,6 +126,7 @@ class GameManager: UIView
         view.addSubview(btn)
     }
     @objc func reset(sender: UIButton){
+        self.btnNext.isUserInteractionEnabled = true
         removeAllPieces()
         self.btnStart.isUserInteractionEnabled = true
         self.btnStart.setTitle("Start", for: UIControlState.normal)
@@ -140,12 +142,12 @@ class GameManager: UIView
     
     
     func addBtnNext(toView view: UIView){
-        let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2+80, y: view.bounds.size.height-70, width: 80, height: 40))
-        btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
-        btn.setTitleColor(UIColor.white, for: UIControlState.normal)
-        btn.setTitle("Next", for: .normal)
-        btn.addTarget(self, action: #selector(next(sender:)), for: .touchUpInside)
-        view.addSubview(btn)
+         btnNext = UIButton(frame: CGRect(x: view.bounds.size.width/2+80, y: view.bounds.size.height-70, width: 80, height: 40))
+        btnNext.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+        btnNext.setTitleColor(UIColor.white, for: UIControlState.normal)
+        btnNext.setTitle("Next", for: .normal)
+        btnNext.addTarget(self, action: #selector(next(sender:)), for: .touchUpInside)
+        view.addSubview(btnNext)
     }
     
     func addBtnPrevious(toView view: UIView){
@@ -161,6 +163,7 @@ class GameManager: UIView
         nextAction()
     }
     @objc func previvous(sender: UIButton){
+        self.btnNext.isUserInteractionEnabled = true
         previousAction()
         
     }
@@ -197,6 +200,7 @@ class GameManager: UIView
     }
     
     func previousAction(){
+        
         currentSolition = self.stepSolutions[self.rowSolution]
         previousAnimation()
     }
@@ -223,14 +227,16 @@ class GameManager: UIView
                     self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: false)
                 }
             }
-            
+           
         }) { (finished) in
             //Kiem tra dau la buoc dung
             if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
                 self.dem = self.dem + 1
                 self.lblSolutionFound.text = String(self.dem)
             }
-            
+            if (self.currentSolition[self.colSolution].position.row == 2 && self.currentSolition[self.colSolution].position.col == self.colTotal && self.currentSolition[self.colSolution].isTrue == false){
+                self.btnNext.isUserInteractionEnabled = false
+            }
             
             self.colSolution = self.colSolution + 1
             
@@ -248,7 +254,6 @@ class GameManager: UIView
         }
     }
     func previousAnimation(){
-        
         self.colSolution = self.colSolution - 1
         let checkBackTrackSolution = self.currentSolition[self.colSolution]
         
@@ -328,6 +333,10 @@ class GameManager: UIView
                 self.dem = self.dem + 1
                 self.lblSolutionFound.text = String(self.dem)
             }
+            if (self.currentSolition[self.colSolution].position.row == 2 && self.currentSolition[self.colSolution].position.col == self.colTotal && self.currentSolition[self.colSolution].isTrue == false){
+                self.btnNext.isUserInteractionEnabled = false
+            }
+
             
             
             self.colSolution = self.colSolution + 1

@@ -40,6 +40,7 @@ class ViewController: UIViewController {
     }
     
     @objc func draw(sender: UIButton){
+        self.gamemanager.btnNext.isUserInteractionEnabled = true
         self.gamemanager.boardView.removeFromSuperview()
         self.gamemanager.btnStart.isHidden = true
         self.gamemanager.lblSolutionFound.isHidden = true
