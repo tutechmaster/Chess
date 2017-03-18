@@ -13,7 +13,7 @@ import UIKit
 
 class GameManager: UIView
 {
-   
+    
     var boardView: Board!
     var playedMoves: [Move]!
     var turn: PieceColor!
@@ -22,6 +22,7 @@ class GameManager: UIView
     var checkStatus: CheckStatus!
     var pieceSets:[PieceSet]! // 1-->2
     var pieceSetOnTop: PieceColor!
+    var delegate: PieceSetDelegate!
     var mainView: UIView!
     var fromPosition: UITextField!
     var toPosition: UITextField!
@@ -31,8 +32,8 @@ class GameManager: UIView
     var rowTotal = 4
     var colTotal = 4
     var dem = 0
-    var delegate: UpdateSolutionFound!
     var lblSolutionFound:UILabel!
+    var btnStart:UIButton!
     var pause: Bool = false{
         didSet {
             if pause == false{
@@ -40,16 +41,16 @@ class GameManager: UIView
             }
         }
     }
-
+    
     
     func initGameWith(viewcontroller: UIViewController, size: CGFloat)
     {
         
-         boardView = Board(frame: CGRect(x: 0,
-                                            y: viewcontroller.view.bounds.size.height / 2 - size / 2,
-                                            width: size, height: size),
-                              rowTotal: rowTotal,
-                              colTotal: colTotal)
+        boardView = Board(frame: CGRect(x: 0,
+                                        y: viewcontroller.view.bounds.size.height / 2 - size / 2,
+                                        width: size, height: size),
+                          rowTotal: rowTotal,
+                          colTotal: colTotal)
         viewcontroller.view.addSubview(boardView)
         self.mainView = boardView
         
@@ -61,15 +62,12 @@ class GameManager: UIView
         self.addSolutionFound(toView: viewcontroller.view)
         self.addBtnNext(toView: viewcontroller.view)
         self.addBtnPrevious(toView: viewcontroller.view)
+        self.addReset(toView: viewcontroller.view)
         
-//      self.addTextField(toView: viewcontroller.view)
+        //      self.addTextField(toView: viewcontroller.view)
         
     }
     
-    func countSolution(){
-        self.dem = 0
-        delegate.updateSolution(solutionFound: self.dem)
-    }
     
     
     func addSolutionText(toView view: UIView){
@@ -86,17 +84,17 @@ class GameManager: UIView
     
     func addBtnMove(toView view: UIView)
     {
-        let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2-40, y: 30, width: 80, height: 50))
-        btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
-        btn.setTitleColor(UIColor.white, for: UIControlState.normal)
-        btn.setTitle("Start", for: .normal)
-        btn.addTarget(self, action: #selector(move(sender:)), for: .touchUpInside)
-        view.addSubview(btn)
+        btnStart = UIButton(frame: CGRect(x: view.bounds.size.width/2-40, y: 30, width: 80, height: 50))
+        btnStart.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+        btnStart.setTitleColor(UIColor.white, for: UIControlState.normal)
+        btnStart.setTitle("Start", for: .normal)
+        btnStart.addTarget(self, action: #selector(move(sender:)), for: .touchUpInside)
+        view.addSubview(btnStart)
     }
     @objc func move(sender: UIButton)
     {
         moveQueen()
-     
+        self.btnStart.isUserInteractionEnabled = false
         
         sender.setTitle("Running", for: UIControlState.normal)
         sender.setTitleColor(UIColor.red, for: UIControlState.normal)
@@ -118,6 +116,28 @@ class GameManager: UIView
         //            piece.moveTo(destination: toPosition)
         //        }
     }
+    func addReset(toView view: UIView){
+        let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2-150, y: 30, width: 80, height: 50))
+        btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+        btn.setTitleColor(UIColor.white, for: UIControlState.normal)
+        btn.setTitle("Reset", for: .normal)
+        btn.addTarget(self, action: #selector(reset(sender:)), for: .touchUpInside)
+        view.addSubview(btn)
+    }
+    @objc func reset(sender: UIButton){
+        removeAllPieces()
+        self.btnStart.isUserInteractionEnabled = true
+        self.btnStart.setTitle("Start", for: UIControlState.normal)
+        self.currentIndexQueen = 0
+        self.rowSolution = 0
+        self.colSolution = 0
+        self.dem = 0
+        self.lblSolutionFound.text = "0"
+        
+        
+        
+    }
+    
     
     func addBtnNext(toView view: UIView){
         let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2+80, y: view.bounds.size.height-70, width: 80, height: 40))
@@ -129,12 +149,12 @@ class GameManager: UIView
     }
     
     func addBtnPrevious(toView view: UIView){
-         let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2-160, y: view.bounds.size.height-70, width: 80, height: 40))
-    btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
-    btn.setTitleColor(UIColor.white, for: UIControlState.normal)
-    btn.setTitle("Previous", for: .normal)
-    btn.addTarget(self, action: #selector(previvous(sender:)), for: .touchUpInside)
-    view.addSubview(btn)
+        let btn = UIButton(frame: CGRect(x: view.bounds.size.width/2-160, y: view.bounds.size.height-70, width: 80, height: 40))
+        btn.backgroundColor = UIColor.green.withAlphaComponent(0.5)
+        btn.setTitleColor(UIColor.white, for: UIControlState.normal)
+        btn.setTitle("Previous", for: .normal)
+        btn.addTarget(self, action: #selector(previvous(sender:)), for: .touchUpInside)
+        view.addSubview(btn)
     }
     
     @objc func next(sender: UIButton){
@@ -142,7 +162,7 @@ class GameManager: UIView
     }
     @objc func previvous(sender: UIButton){
         previousAction()
-
+        
     }
     
     //vong lap animation
@@ -173,7 +193,7 @@ class GameManager: UIView
     func nextAction(){
         currentSolition = self.stepSolutions[self.rowSolution]
         nextAnimation()
-
+        
     }
     
     func previousAction(){
@@ -183,7 +203,6 @@ class GameManager: UIView
     
     func nextAnimation(){
         
-
         
         UIView.setAnimationsEnabled(true)
         UIView.animate(withDuration: 0.005, animations: {
@@ -204,6 +223,7 @@ class GameManager: UIView
                     self.pieceSets.first?.addnewQueenAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1), isTrue: false)
                 }
             }
+            
         }) { (finished) in
             //Kiem tra dau la buoc dung
             if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
@@ -223,30 +243,57 @@ class GameManager: UIView
                 }
                 self.colSolution = 0
                 self.rowSolution = self.rowSolution + 1
+                //              self.pieceSets.first?.savePreviousControllers()
             }
         }
-
     }
     func previousAnimation(){
         
         self.colSolution = self.colSolution - 1
+        let checkBackTrackSolution = self.currentSolition[self.colSolution]
         
-//        self.didRemovePieceController(pieceView: self.pieceSets.first?.delegate as! PieceView )
-        self.removeBacktrackedPieces(backtrackStep: self.currentSolition[self.colSolution])
-        
-        
-        if(self.currentSolition[self.colSolution].position.row == self.rowTotal && self.currentSolition[self.colSolution].isTrue == true){
-            self.dem = self.dem - 1
-            self.lblSolutionFound.text = String(self.dem)
-        }
-        
-        if (self.colSolution == 0){
-            if (self.rowSolution == 0){
-                return
+        if(checkBackTrackSolution.backtrack > 0){
+            for index in 1 ... checkBackTrackSolution.backtrack {
+                self.colSolution = self.colSolution - index*self.colTotal - 1
             }
-            self.colSolution = colTotal
-            self.rowSolution = self.rowSolution - 1
         }
+        
+        UIView.setAnimationsEnabled(true)
+        UIView.animate(withDuration: 0.005, animations: {
+            
+            
+            let currentPiece = self.pieceSets.first?.getPieceControllerAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1))
+            self.removeAllPieces()
+
+            print("----------------------------")
+            print(currentPiece?.pieceModel.prePiece.state)
+            self.removeAllPieces()
+        
+            for i in (currentPiece?.pieceModel.prePiece.state)!
+            {
+                var isQueen: Bool!
+                if i.type == .Queen{
+                    isQueen = true
+                }
+                else if i.type == .None{
+                    isQueen = false
+                }
+                self.pieceSets.first?.addnewQueenAt(position: i.position, isTrue: isQueen)
+            }
+            
+            
+//            self.colSolution = self.colSolution - 1
+//            
+//            self.pieceSets.first?.removePieceController(pieceController: (self.pieceSets.first?.getPieceControllerAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1)))!)
+            
+            
+            //            self.pieceSets.first?.setPreviousControllers()
+            
+        }) { (finished) in
+            
+            self.colSolution = self.colSolution - 1
+            let currentPiece = self.pieceSets.first?.getPieceControllerAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1))
+                   }
     }
     
     func autoAnimation()
@@ -284,9 +331,9 @@ class GameManager: UIView
             
             
             self.colSolution = self.colSolution + 1
-
+            
             // Neu col la dong cuoi thi solution do tang row len 1
-             if (self.colSolution == self.currentSolition.count)
+            if (self.colSolution == self.currentSolition.count)
             {
                 if(self.rowSolution == self.stepSolutions.count-1)
                 {
@@ -302,7 +349,7 @@ class GameManager: UIView
     }
     func moveQueen(){
         loop()
-    
+        
         
         //        self.queens = nQueens.queens
         //        if currentIndexQueen == nQueens.queens.count
@@ -320,7 +367,7 @@ class GameManager: UIView
         
     }
     
-   
+    
     
     func addTextField(toView view: UIView)
     {
@@ -357,7 +404,7 @@ class GameManager: UIView
                                      colTotal: colTotal,
                                      width: width)
         whitePieceSet.delegate = self
-//        whitePieceSet.addPieces()
+        //        whitePieceSet.addPieces()
         
         self.pieceSetOnTop = PieceColor.White
         

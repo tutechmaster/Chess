@@ -13,6 +13,11 @@ protocol PieceSetDelegate {
     func didFinishAddNewPiece(pieceController: PieceController)
     func didRemovePieceController(pieceView: PieceView)
 }
+
+struct VisibleOnBoard {
+    var type:PieceType!
+    var position:Position!
+}
 class PieceSet
 {
     var delegate: PieceSetDelegate!
@@ -23,6 +28,8 @@ class PieceSet
     var colTotal: Int!
     var width: CGFloat!
     var rootPiece: Piece!
+    var previousControllers = Array<PieceController>()
+    var prePiece: Piece!
     
     init(color: PieceColor, rowTotal: Int, colTotal: Int, width: CGFloat) {
         pieceOrder.append(contentsOf: [.Rook, .Knight, .Bishop, .Queen, .King, .Bishop, .Knight, .Rook])
@@ -31,6 +38,24 @@ class PieceSet
         self.colTotal = colTotal
         self.width = width
     }
+    
+    func getAllVisible() -> [VisibleOnBoard]{
+        var visibleOnBoards = [VisibleOnBoard]()
+        for pieceController in pieceControllers{
+           let  visibleOnBoard = VisibleOnBoard(type: pieceController.pieceModel.type, position: pieceController.pieceModel.placeAt)
+            visibleOnBoards.append(visibleOnBoard)
+        }
+        return visibleOnBoards
+    }
+    
+    func savePreviousControllers(){
+        self.previousControllers = self.pieceControllers
+    }
+    
+    func setPreviousControllers(){
+        self.pieceControllers = self.previousControllers
+    }
+    
     func removePieceModel(piece: Piece)
     {
         for pieceController in self.pieceControllers
@@ -160,6 +185,13 @@ class PieceSet
         {
             currentPiece = Queen(pieceColor: color, at: position)
         }
+        
+        currentPiece.prePiece = prePiece
+        currentPiece.state = self.getAllVisible()
+        prePiece = currentPiece
+        
+        print(currentPiece.state)
+        print(currentPiece.state.count)
         currentPiece.root = self.rootPiece
         //Khi piece ở dòng mới thì mới đổi rootPiece
         if(currentPiece.type != .None)
@@ -175,9 +207,9 @@ class PieceSet
         let startCoordinates = Position(row: 0, col: 0)
         let endCoordinates = Position(row: 1, col: colTotal)
         self.addPieceQueenWith(startCoordinates: startCoordinates,
-                           endCoordinates: endCoordinates,
-                           color: color,
-                           width: width)
+                               endCoordinates: endCoordinates,
+                               color: color,
+                               width: width)
     }
     
     func addPieceQueenWith(startCoordinates: Position, endCoordinates: Position, color: PieceColor, width: CGFloat){
@@ -191,7 +223,6 @@ class PieceSet
             let position = Position(row: 0, col: col)
             self.addnewQueenAt(position: position, isTrue: true)
         }
-        
     }
     func addPiecesWith(startCoordinates: Position, endCoordinates: Position, color: PieceColor, width: CGFloat)
     {

@@ -19,6 +19,10 @@ class Piece
     var placeAt: Position!
     var moved: Bool!
     var type: PieceType!
+    var state:[VisibleOnBoard]!
+    
+    var prePiece: Piece!
+    
     init(pieceColor: PieceColor, at position: Position, type: PieceType)
     {
         self.pieceColor = pieceColor
