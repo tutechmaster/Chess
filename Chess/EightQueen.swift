@@ -26,11 +26,13 @@ class EightQueen {
         trace = [Int](repeating: 0, count: row+1)
         nQueens(row: 1, col: col, rootCol: 0)
         detectSteps()
-//        loop()
-        print("Done")
     }
     
+<<<<<<< HEAD
     //Chia các solution từ mảng Steps
+=======
+    //Chia các solutions từ mảng steps
+>>>>>>> origin/master
     func detectSteps()
     {
         var curretSolution = [Step]()
@@ -38,6 +40,7 @@ class EightQueen {
         for step in self.steps
         {
             var backTrack: Step!
+<<<<<<< HEAD
                         //Tìm ra step là backTrack, chỉ xảy ra khi row thay đổi
             if(previousStep?.position.row != step.position.row)
             {                   //Và previousStep.col là cuối cùng
@@ -59,6 +62,28 @@ class EightQueen {
                    
                     backTrack = previousStep
                     backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
+=======
+            //Tìm ra step là backTrack, chỉ xảy ra khi row thay đổi
+            if(previousStep?.position.row != step.position.row)
+            {
+                //Và previousStep.col là cuối cùng
+                if(previousStep?.position.col == self.totalCol)
+                {
+                    //trường hợp step đó là sai thì đó chính là backTrack
+                    if( previousStep?.isTrue == false)
+                    {
+                        backTrack = previousStep
+                        backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
+                    }//Trường hợp step đó đúng và row là cuối cùng thì đó là backTrack
+                    else if(previousStep?.position.row == self.totalCol){
+                        
+                        backTrack = previousStep
+                        backTrack.backtrack = abs((previousStep?.position.row)! - step.position.row)
+                    }
+                    if(backTrack != nil)
+                    {
+                        curretSolution.append(backTrack)
+>>>>>>> origin/master
                     }
                     if(backTrack != nil){
                         curretSolution.append(backTrack)
@@ -72,9 +97,13 @@ class EightQueen {
                 self.stepSolutions.append(curretSolution)
                 curretSolution = [Step]()
             }
+<<<<<<< HEAD
            
             curretSolution.append(step)
+=======
+>>>>>>> origin/master
             
+            curretSolution.append(step)
             previousStep = step
         }
         self.stepSolutions.append(curretSolution)
