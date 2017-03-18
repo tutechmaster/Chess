@@ -296,8 +296,8 @@ class GameManager: UIView
             
         }) { (finished) in
             
-            self.colSolution = self.colSolution - 1
-            let currentPiece = self.pieceSets.first?.getPieceControllerAt(position: Position(row: self.currentSolition[self.colSolution].position.row-1, col: self.currentSolition[self.colSolution].position.col-1))
+//            self.colSolution = self.colSolution - 1
+            let currentPiece = self.pieceSets.first?.getPieceControllerAt(position: Position(row: self.currentSolition[self.colSolution].position.row, col: self.currentSolition[self.colSolution].position.col))
                    }
     }
     
